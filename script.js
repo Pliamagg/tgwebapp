@@ -2,6 +2,28 @@
 let score = 0;
 let energy = 1000;
 
+// Функція для симуляції завантаження
+function simulateLoading() {
+    let progress = 0;
+    const progressBar = document.getElementById('progressBar');
+    const loadingScreen = document.getElementById('loadingScreen');
+    const gameContainer = document.getElementById('gameContainer');
+
+    const loadingInterval = setInterval(() => {
+        if (progress >= 100) {
+            clearInterval(loadingInterval);
+            loadingScreen.style.display = 'none'; // Приховати завантажувальний екран
+            gameContainer.style.display = 'flex'; // Показати гру
+        } else {
+            progress += 10; // Збільшення прогресу
+            progressBar.style.width = progress + '%'; // Оновлення ширини прогрес-бару
+        }
+    }, 500); // Оновлювати кожні 500 мс (0.5 секунди)
+}
+
+// Запуск симуляції завантаження при завантаженні сторінки
+document.addEventListener('DOMContentLoaded', simulateLoading);
+
 // Отримання інформації про користувача з Telegram
 const tg = window.Telegram.WebApp;
 const user = tg.initDataUnsafe.user;
