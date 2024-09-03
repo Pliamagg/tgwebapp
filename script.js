@@ -9,11 +9,15 @@ const nickname = user.username || `${user.first_name} ${user.last_name}`;
 document.getElementById('nickname').innerText = `Player: ${nickname}`;
 
 // Логіка гри
-document.getElementById('tapButton').onclick = function() {
+document.getElementById('tapImage').onclick = function() { // Зміна з tapButton на tapImage
     if (energy > 0) {
         score += 1;
         energy -= 1;
         updateStats();
+        
+        // Додавання ефекту легкого блюру при натисканні
+        this.classList.add('blur');
+        setTimeout(() => this.classList.remove('blur'), 100);
     } else {
         alert('No energy left! Come back tomorrow.');
     }
