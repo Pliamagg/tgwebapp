@@ -7,7 +7,7 @@ body {
     align-items: center;
     height: 100vh;
     background-color: #f0f0f0;
-    background-image: url('background_placeholder.png'); /* Місце для майбутнього імпорту фону */
+    background-image: url('images/nuke.jpg'); /* Місце для майбутнього імпорту фону */
     background-size: cover; /* Масштабування зображення фону */
     background-position: center; /* Центрування зображення фону */
     background-repeat: no-repeat; /* Заборона повторення фону */
