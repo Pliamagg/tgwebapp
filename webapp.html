@@ -7,6 +7,21 @@
     <!-- Telegram Web App SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="style.css">
+    <script>
+        // JavaScript для заборони масштабування за допомогою Ctrl + колесо миші
+        document.addEventListener('wheel', function(event) {
+            if (event.ctrlKey) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+
+        // JavaScript для заборони масштабування за допомогою Ctrl + +/- на клавіатурі
+        document.addEventListener('keydown', function(event) {
+            if (event.ctrlKey && (event.key === '+' || event.key === '-' || event.key === '=')) {
+                event.preventDefault();
+            }
+        });
+    </script>
 </head>
 <body>
     <div class="container">
@@ -22,7 +37,7 @@
         </div>
 
         <div class="game-area">
-            <img id="tapImage" src="images/ak47.png" alt="Tap" />
+            <img id="tapImage" src="tap_image_placeholder.png" alt="Tap" />
         </div>
 
         <div class="bottom-bar">
