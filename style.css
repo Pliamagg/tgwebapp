@@ -8,11 +8,8 @@ body {
     align-items: center;
     height: 100vh;
     width: 100vw;
-    background-color: #f0f4f8;
-    background-image: url('images/nuke.jpg'); /* Встановіть правильний шлях до зображення фону */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    background-color: #0d0d0d; /* Темний фон у стилі кіберпанк */
+    color: #00ff00; /* Неоновий зелений колір тексту */
     overflow: hidden;
 }
 
@@ -25,7 +22,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 0 15px; /* Відступи для зручності перегляду */
+    padding: 0 15px;
     box-sizing: border-box;
 }
 
@@ -33,27 +30,29 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
-    background-color: #333;
+    padding: 5px; /* Зменшення відступів */
     color: white;
     width: 100%;
     box-sizing: border-box;
-    border-radius: 10px;
-    margin-top: 10px;
+    border-bottom: 2px solid #00ff00; /* Неонова рамка для кіберпанк стилю */
+    margin-top: 5px; /* Зменшення верхнього відступу */
+    background: none; /* Вилучення фону */
 }
 
 .menu-button {
-    background-color: #444;
-    color: white;
+    background-color: transparent;
+    color: #00ff00; /* Неоновий зелений */
     border: none;
-    padding: 10px 15px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    border-radius: 5px;
+    transition: color 0.3s ease;
 }
 
 .menu-button:active {
-    background-color: #222;
+    color: #ff00ff; /* Неоновий рожевий */
+}
+
+.menu-icon {
+    font-size: 24px; /* Розмір іконки меню */
 }
 
 .progress-bar {
@@ -63,6 +62,14 @@ body {
 
 .player-info {
     text-align: right;
+}
+
+.player-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #00ff00; /* Неонова рамка */
+    margin-right: 10px;
 }
 
 .star {
@@ -95,17 +102,16 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    background-color: #333;
+    background-color: #222;
     color: white;
     width: 100%;
     box-sizing: border-box;
-    border-radius: 10px;
-    margin-bottom: 10px;
+    border-top: 2px solid #00ff00; /* Неонова рамка */
 }
 
 .btn {
-    background-color: #555;
-    color: white;
+    background-color: #333;
+    color: #00ff00; /* Неоновий зелений */
     border: none;
     padding: 10px 15px;
     cursor: pointer;
@@ -139,7 +145,7 @@ body {
 .btn-boost:active,
 .btn-shop:active,
 .btn-claim:active {
-    background-color: #003366; /* Темніший відтінок для ефекту натискання */
+    background-color: #003366;
 }
 
 /* Медіа-запити для адаптивності */
