@@ -1,168 +1,55 @@
-/* Основні стилі */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    width: 100vw;
-    background-color: #f0f4f8;
-    background-image: url('images/nuke.jpg'); /* Встановіть правильний шлях до зображення фону */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    overflow: hidden;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Tap and Earn MiniApp</title>
+    <!-- Telegram Web App SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        // JavaScript для заборони масштабування за допомогою Ctrl + колесо миші
+        document.addEventListener('wheel', function(event) {
+            if (event.ctrlKey) {
+                event.preventDefault();
+            }
+        }, { passive: false });
 
-.container {
-    width: 100%;
-    max-width: 600px;
-    text-align: center;
-    position: relative;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 0 15px; /* Відступи для зручності перегляду */
-    box-sizing: border-box;
-}
+        // JavaScript для заборони масштабування за допомогою Ctrl + +/- на клавіатурі
+        document.addEventListener('keydown', function(event) {
+            if (event.ctrlKey && (event.key === '+' || event.key === '-' || event.key === '=')) {
+                event.preventDefault();
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header class="top-bar">
+            <button id="menuButton" class="menu-button">Menu</button>
+            <div class="progress-bar">
+                <p id="score">Score: 0</p>
+            </div>
+            <div class="player-info">
+                <p id="nickname">Player: Unknown</p>
+                <p id="status">Level: <span class="star">★</span></p>
+                <p id="energy">Energy: 1000</p>
+            </div>
+        </header>
 
-.top-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    background-color: #333;
-    color: white;
-    width: 100%;
-    box-sizing: border-box;
-    border-radius: 10px;
-    margin-top: 10px;
-}
+        <main class="game-area">
+            <!-- Зображення монети, на яке можна натискати -->
+            <img id="tapImage" src="images/ak.png" alt="Tap" />
+        </main>
 
-.menu-button {
-    background-color: #444;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    border-radius: 5px;
-}
+        <footer class="bottom-bar">
+            <button id="friendButton" class="btn btn-friend">Friend</button>
+            <button id="boostButton" class="btn btn-boost">Boost</button>
+            <button id="shopButton" class="btn btn-shop">Shop</button>
+            <button id="claimButton" class="btn btn-claim">Claim</button>
+        </footer>
+    </div>
 
-.menu-button:active {
-    background-color: #222;
-}
-
-.progress-bar {
-    flex-grow: 1;
-    text-align: center;
-}
-
-.player-info {
-    text-align: right;
-}
-
-.star {
-    color: gold;
-}
-
-.game-area {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px 0;
-}
-
-#tapImage {
-    max-width: 80%;
-    max-height: 80%;
-    height: auto;
-    cursor: pointer;
-    transition: transform 0.1s ease, filter 0.1s ease;
-}
-
-#tapImage.blur {
-    filter: blur(2px);
-    transform: scale(1.05);
-}
-
-.bottom-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    background-color: #333;
-    color: white;
-    width: 100%;
-    box-sizing: border-box;
-    border-radius: 10px;
-    margin-bottom: 10px;
-}
-
-.btn {
-    background-color: #555;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    flex-grow: 1;
-    margin: 0 5px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, transform 0.1s ease;
-}
-
-.btn:active {
-    transform: scale(0.95);
-}
-
-.btn-friend {
-    background-color: #007bff;
-}
-
-.btn-boost {
-    background-color: #28a745;
-}
-
-.btn-shop {
-    background-color: #ffc107;
-}
-
-.btn-claim {
-    background-color: #17a2b8;
-}
-
-.btn-friend:active,
-.btn-boost:active,
-.btn-shop:active,
-.btn-claim:active {
-    background-color: #003366; /* Темніший відтінок для ефекту натискання */
-}
-
-/* Медіа-запити для адаптивності */
-@media (max-width: 768px) {
-    .container {
-        max-width: 100%;
-    }
-
-    .top-bar, .bottom-bar {
-        width: 100%;
-    }
-
-    #tapImage {
-        max-width: 70%;
-    }
-}
-
-@media (max-width: 480px) {
-    .top-bar button, .bottom-bar button {
-        padding: 8px 10px;
-    }
-
-    #tapImage {
-        max-width: 80%;
-    }
-}
+    <script src="script.js"></script> <!-- Змінений скрипт для гри -->
+</body>
+</html>
