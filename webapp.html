@@ -10,18 +10,26 @@
 </head>
 <body>
     <div class="container">
-        <h1>Tap and Earn</h1>
-        <p>Welcome to the Tap and Earn game!</p>
-        <button id="tapButton">Tap</button>
-        <button id="shopButton">Shop</button>
-        <button id="claimButton">Claim</button>
-        <button id="boostButton">Boost</button>
-        <button id="friendButton">Friend</button>
+        <div class="top-bar">
+            <button id="menuButton">Menu</button>
+            <div class="progress-bar">
+                <p id="score">Score: 0</p>
+            </div>
+            <div class="player-info">
+                <p id="nickname">Nickname: Player1</p>
+                <p id="status">Level: <span class="star">★</span></p>
+            </div>
+        </div>
 
-        <div class="stats">
-            <p id="score">Score: 0</p>
-            <p id="energy">Energy: 1000</p>
-            <p id="nickname"></p>
+        <div class="game-area">
+            <img id="tapImage" src="tap_image_placeholder.png" alt="Tap" />
+        </div>
+
+        <div class="bottom-bar">
+            <button id="friendButton">Friend</button>
+            <button id="boostButton">Boost</button>
+            <button id="shopButton">Shop</button>
+            <button id="claimButton">Claim</button>
         </div>
     </div>
 
