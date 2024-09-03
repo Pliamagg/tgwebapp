@@ -25,8 +25,8 @@
 </head>
 <body>
     <div class="container">
-        <div class="top-bar">
-            <button id="menuButton">Menu</button>
+        <header class="top-bar">
+            <button id="menuButton" class="menu-button">Menu</button>
             <div class="progress-bar">
                 <p id="score">Score: 0</p>
             </div>
@@ -35,19 +35,19 @@
                 <p id="status">Level: <span class="star">★</span></p>
                 <p id="energy">Energy: 1000</p>
             </div>
-        </div>
+        </header>
 
-        <div class="game-area">
+        <main class="game-area">
             <!-- Зображення монети, на яке можна натискати -->
             <img id="tapImage" src="images/ak.png" alt="Tap" />
-        </div>
+        </main>
 
-        <div class="bottom-bar">
-            <button id="friendButton">Friend</button>
-            <button id="boostButton">Boost</button>
-            <button id="shopButton">Shop</button>
-            <button id="claimButton">Claim</button>
-        </div>
+        <footer class="bottom-bar">
+            <button id="friendButton" class="btn btn-friend">Friend</button>
+            <button id="boostButton" class="btn btn-boost">Boost</button>
+            <button id="shopButton" class="btn btn-shop">Shop</button>
+            <button id="claimButton" class="btn btn-claim">Claim</button>
+        </footer>
     </div>
 
     <script src="script.js"></script> <!-- Змінений скрипт для гри -->
