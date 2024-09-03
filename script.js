@@ -6,7 +6,9 @@ let energy = 1000;
 const tg = window.Telegram.WebApp;
 const user = tg.initDataUnsafe.user;
 const nickname = user.username || `${user.first_name} ${user.last_name}`;
+// Оновлюємо аватар гравця
 document.getElementById('nickname').innerText = `Player: ${nickname}`;
+document.getElementById('playerAvatar').src = user.photo_url || 'images/default-avatar.png';
 
 // Логіка гри
 document.getElementById('tapImage').onclick = function() {
@@ -45,4 +47,4 @@ function updateStats() {
 
 // Встановлення колірної схеми відповідно до налаштувань Telegram
 tg.expand();
-document.body.style.backgroundColor = tg.themeParams.bg_color || '#ffffff';
+document.body.style.backgroundColor = tg.themeParams.bg_color || '#0d0d0d';
