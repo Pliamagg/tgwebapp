@@ -7,7 +7,7 @@ body {
     align-items: center;
     height: 100vh;
     width: 100vw;
-    background-color: #f0f0f0;
+/*     background-color: #f0f0f0; */
     background-image: url('images/nuke.jpg'); /* Місце для майбутнього імпорту фону */
     background-size: cover; /* Масштабування зображення фону */
     background-position: center; /* Центрування зображення фону */
