@@ -1,33 +1,100 @@
 body {
     font-family: Arial, sans-serif;
-    text-align: center;
-    padding: 20px;
-    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    background-image: url('background_placeholder.png'); /* Місце для майбутнього імпорту фону */
+    background-size: cover; /* Масштабування зображення фону */
+    background-position: center; /* Центрування зображення фону */
+    background-repeat: no-repeat; /* Заборона повторення фону */
 }
 
 .container {
-    max-width: 400px;
-    margin: 0 auto;
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    position: relative;
 }
 
-button {
-    display: block;
-    width: 100%;
-    padding: 15px;
-    margin: 10px 0;
-    font-size: 18px;
-    border: none;
-    border-radius: 8px;
-    background-color: #4CAF50;
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #333;
     color: white;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.top-bar button {
+    background-color: #444;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Плавна зміна кольору */
+}
+
+.top-bar button:active {
+    background-color: #222; /* Зміна кольору при кліку */
+}
+
+.progress-bar {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.player-info {
+    text-align: right;
+}
+
+.star {
+    color: red;
+}
+
+.game-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+    margin-top: 50px; /* Налаштування відступу згори */
+}
+
+#tapImage {
+    width: 150px;
+    height: 150px;
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #45a049;
+.bottom-bar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
-.stats {
-    margin: 20px 0;
-    font-size: 20px;
+.bottom-bar button {
+    background-color: #444;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    width: 20%;
+    transition: background-color 0.3s ease, transform 0.1s ease; /* Плавна зміна кольору і ефект натискання */
+}
+
+.bottom-bar button:active {
+    background-color: #222; /* Зміна кольору при кліку */
+    transform: scale(0.95); /* Ефект натискання кнопки */
 }
