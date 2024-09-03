@@ -6,6 +6,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    width: 100vw;
     background-color: #f0f0f0;
     background-image: url('images/nuke.jpg'); /* Місце для майбутнього імпорту фону */
     background-size: cover; /* Масштабування зображення фону */
@@ -18,6 +19,8 @@ body {
     max-width: 600px;
     text-align: center;
     position: relative;
+    padding: 0 15px; /* Додано відступ для зручності перегляду на різних пристроях */
+    box-sizing: border-box; /* Включення padding в ширину елементів */
 }
 
 .top-bar {
@@ -27,9 +30,11 @@ body {
     padding: 10px;
     background-color: #333;
     color: white;
-    position: absolute;
+    position: fixed;
     top: 0;
     width: 100%;
+    max-width: 600px;
+    box-sizing: border-box;
 }
 
 .top-bar button {
@@ -62,13 +67,14 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 70vh;
-    margin-top: 50px; /* Налаштування відступу згори */
+    height: calc(100vh - 150px); /* Динамічний розрахунок висоти за виключенням top та bottom bar */
+    margin-top: 50px; /* Відступ для top-bar */
 }
 
 #tapImage {
-    width: 150px;
-    height: 150px;
+    width: 50%; /* Відносна ширина для адаптивності */
+    max-width: 150px; /* Максимальна ширина для великих екранів */
+    height: auto; /* Автоматична висота для збереження пропорцій */
     cursor: pointer;
 }
 
@@ -79,9 +85,11 @@ body {
     padding: 10px;
     background-color: #333;
     color: white;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 100%;
+    max-width: 600px;
+    box-sizing: border-box;
 }
 
 .bottom-bar button {
@@ -90,11 +98,36 @@ body {
     border: none;
     padding: 10px 15px;
     cursor: pointer;
-    width: 20%;
+    width: 22%; /* Відносна ширина для кнопок */
     transition: background-color 0.3s ease, transform 0.1s ease; /* Плавна зміна кольору і ефект натискання */
 }
 
 .bottom-bar button:active {
     background-color: #222; /* Зміна кольору при кліку */
     transform: scale(0.95); /* Ефект натискання кнопки */
+}
+
+/* Медіа-запити для різних розмірів екранів */
+@media (max-width: 768px) {
+    .container {
+        max-width: 100%;
+    }
+
+    .top-bar, .bottom-bar {
+        width: 100%;
+    }
+
+    #tapImage {
+        width: 70%; /* Більша ширина для менших екранів */
+    }
+}
+
+@media (max-width: 480px) {
+    .top-bar button, .bottom-bar button {
+        padding: 8px 12px; /* Зменшення padding для дуже маленьких екранів */
+    }
+
+    #tapImage {
+        width: 80%; /* Більша ширина для мобільних телефонів */
+    }
 }
