@@ -9,7 +9,7 @@ const nickname = user.username || `${user.first_name} ${user.last_name}`;
 document.getElementById('nickname').innerText = `Player: ${nickname}`;
 
 // Логіка гри
-document.getElementById('tapImage').onclick = function() { // Зміна з tapButton на tapImage
+document.getElementById('tapImage').onclick = function() {
     if (energy > 0) {
         score += 1;
         energy -= 1;
