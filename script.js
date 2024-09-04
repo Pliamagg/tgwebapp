@@ -4,18 +4,26 @@ let energy = 1000;
 
 // Функція для перемикання сторінок
 function showPage(pageId) {
-    document.querySelectorAll('.page').forEach(page => {
+    document.querySelectorAll('.container').forEach(page => {
         page.style.display = 'none'; // Приховуємо всі сторінки
     });
     document.getElementById(pageId).style.display = 'flex'; // Показуємо обрану сторінку
+
+    // Встановлюємо кнопку "Назад" замість "Menu" для всіх сторінок, крім головної
+    if (pageId !== 'mainPage') {
+        window.Telegram.WebApp.BackButton.show();
+    } else {
+        window.Telegram.WebApp.BackButton.hide();
+    }
 }
 
-// Повернення на головну сторінку
-document.querySelectorAll('.back-button').forEach(button => {
-    button.onclick = function() {
-        showPage('mainPage');
-    };
-});
+// Функція для повернення на головну сторінку
+function goBack() {
+    showPage('mainPage');
+}
+
+// Встановлення дії кнопки "Назад" Telegram Web App
+window.Telegram.WebApp.BackButton.onClick(goBack);
 
 // Отримання інформації про користувача з Telegram
 const tg = window.Telegram.WebApp;
