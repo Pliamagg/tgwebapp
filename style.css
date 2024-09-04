@@ -48,7 +48,7 @@
 }
 
 .menu-button, .progress-bar, .player-info {
-    background-color: rgba(255, 255, 255, 0.5); /* Напівпрозорий фон для читабельності */
+    background-color: transparent; /* Напівпрозорий фон для читабельності */
     padding: 10px;
     border-radius: 8px;
     margin: 5px;
