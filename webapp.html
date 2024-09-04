@@ -23,9 +23,10 @@
     </script>
 </head>
 <body>
+    <!-- Головна сторінка -->
     <div id="mainPage" class="container">
         <header class="top-bar">
-            <button id="menuButton" class="menu-button">Menu</button>
+            <div class="menu-button">Menu</div>
             <div class="progress-bar">
                 <p id="score">Score: 0</p>
             </div>
@@ -50,23 +51,43 @@
 
     <!-- Додаткові сторінки -->
     <div id="friendPage" class="container page" style="display: none;">
-        <button class="back-button">Back</button>
-        <!-- Зображення на задньому фоні -->
+        <header class="top-bar">
+            <button class="back-button" onclick="goBack()">Back</button>
+        </header>
+        <main class="game-area">
+            <!-- Контент сторінки Friend -->
+            <p>Welcome to the Friend page!</p>
+        </main>
     </div>
 
     <div id="boostPage" class="container page" style="display: none;">
-        <button class="back-button">Back</button>
-        <!-- Зображення на задньому фоні -->
+        <header class="top-bar">
+            <button class="back-button" onclick="goBack()">Back</button>
+        </header>
+        <main class="game-area">
+            <!-- Контент сторінки Boost -->
+            <p>Boost your game here!</p>
+        </main>
     </div>
 
     <div id="shopPage" class="container page" style="display: none;">
-        <button class="back-button">Back</button>
-        <!-- Зображення на задньому фоні -->
+        <header class="top-bar">
+            <button class="back-button" onclick="goBack()">Back</button>
+        </header>
+        <main class="game-area">
+            <!-- Контент сторінки Shop -->
+            <p>Shop for items!</p>
+        </main>
     </div>
 
     <div id="claimPage" class="container page" style="display: none;">
-        <button class="back-button">Back</button>
-        <!-- Зображення на задньому фоні -->
+        <header class="top-bar">
+            <button class="back-button" onclick="goBack()">Back</button>
+        </header>
+        <main class="game-area">
+            <!-- Контент сторінки Claim -->
+            <p>Claim your rewards!</p>
+        </main>
     </div>
 
     <script src="script.js"></script>
