@@ -2,28 +2,6 @@
 let score = 0;
 let energy = 1000;
 
-// Функція для симуляції завантаження
-function simulateLoading() {
-    let progress = 0;
-    const progressBar = document.getElementById('progressBar');
-    const loadingScreen = document.getElementById('loadingScreen');
-    const mainPage = document.getElementById('mainPage');
-
-    const loadingInterval = setInterval(() => {
-        if (progress >= 100) {
-            clearInterval(loadingInterval);
-            loadingScreen.style.display = 'none'; // Приховати екран завантаження
-            mainPage.style.display = 'flex'; // Показати головну сторінку
-        } else {
-            progress += 10; // Збільшення прогресу
-            progressBar.style.width = progress + '%'; // Оновлення ширини прогрес-бару
-        }
-    }, 500); // Оновлювати кожні 500 мс (0.5 секунди)
-}
-
-// Запуск симуляції завантаження при завантаженні сторінки
-document.addEventListener('DOMContentLoaded', simulateLoading);
-
 // Функція для перемикання сторінок
 function showPage(pageId) {
     document.querySelectorAll('.container').forEach(page => {
