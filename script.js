@@ -2,6 +2,21 @@
 let score = 0;
 let energy = 1000;
 
+// Функція для перемикання сторінок
+function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(page => {
+        page.style.display = 'none'; // Приховуємо всі сторінки
+    });
+    document.getElementById(pageId).style.display = 'flex'; // Показуємо обрану сторінку
+}
+
+// Повернення на головну сторінку
+document.querySelectorAll('.back-button').forEach(button => {
+    button.onclick = function() {
+        showPage('mainPage');
+    };
+});
+
 // Отримання інформації про користувача з Telegram
 const tg = window.Telegram.WebApp;
 const user = tg.initDataUnsafe.user;
@@ -23,18 +38,18 @@ document.getElementById('tapImage').onclick = function() {
     }
 };
 
-// Обробники для інших кнопок (поки що не реалізовано)
-document.getElementById('shopButton').onclick = function() {
-    alert('Shop is not implemented yet.');
-};
-document.getElementById('claimButton').onclick = function() {
-    alert('Claim is not implemented yet.');
+// Обробники для кнопок перемикання сторінок
+document.getElementById('friendButton').onclick = function() {
+    showPage('friendPage');
 };
 document.getElementById('boostButton').onclick = function() {
-    alert('Boost is not implemented yet.');
+    showPage('boostPage');
 };
-document.getElementById('friendButton').onclick = function() {
-    alert('Friend is not implemented yet.');
+document.getElementById('shopButton').onclick = function() {
+    showPage('shopPage');
+};
+document.getElementById('claimButton').onclick = function() {
+    showPage('claimPage');
 };
 
 // Функція для оновлення статистики на екрані
