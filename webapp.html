@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
     <title>Tap and Earn MiniApp</title>
-    <!-- Telegram Web App SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="style.css">
     <script>
@@ -24,7 +23,7 @@
     </script>
 </head>
 <body>
-    <div class="container">
+    <div id="mainPage" class="container">
         <header class="top-bar">
             <button id="menuButton" class="menu-button">Menu</button>
             <div class="progress-bar">
@@ -38,7 +37,6 @@
         </header>
 
         <main class="game-area">
-            <!-- Зображення монети, на яке можна натискати -->
             <img id="tapImage" src="images/ak.png" alt="Tap" />
         </main>
 
@@ -50,6 +48,27 @@
         </footer>
     </div>
 
-    <script src="script.js"></script> <!-- Змінений скрипт для гри -->
+    <!-- Додаткові сторінки -->
+    <div id="friendPage" class="container page" style="display: none;">
+        <button class="back-button">Back</button>
+        <!-- Зображення на задньому фоні -->
+    </div>
+
+    <div id="boostPage" class="container page" style="display: none;">
+        <button class="back-button">Back</button>
+        <!-- Зображення на задньому фоні -->
+    </div>
+
+    <div id="shopPage" class="container page" style="display: none;">
+        <button class="back-button">Back</button>
+        <!-- Зображення на задньому фоні -->
+    </div>
+
+    <div id="claimPage" class="container page" style="display: none;">
+        <button class="back-button">Back</button>
+        <!-- Зображення на задньому фоні -->
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
