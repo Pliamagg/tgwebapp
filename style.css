@@ -38,7 +38,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    background-color: rgba(255, 255, 255, 0.8); /* Прозорий фон */
+    background-color: transparent; /* Прозорий фон */
     width: 100%;
     box-sizing: border-box;
     position: absolute;
@@ -47,22 +47,20 @@
     z-index: 1000;
 }
 
-.top-bar-item {
-    margin: 0 10px;
+.menu-button, .progress-bar, .player-info {
+    background-color: rgba(255, 255, 255, 0.5); /* Напівпрозорий фон для читабельності */
+    padding: 10px;
+    border-radius: 8px;
+    margin: 5px;
 }
 
 .menu-button {
-    background-color: #444;
-    color: white;
-    border: none;
-    padding: 10px 15px;
     cursor: pointer;
-    border-radius: 5px;
     transition: background-color 0.3s ease;
 }
 
 .menu-button:active {
-    background-color: #222;
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 }
