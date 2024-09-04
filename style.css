@@ -5,7 +5,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: url('images/nuke2.jpg'); /* Можна замінити на фон зображення */
+    background-color: #ffffff; /* Можна замінити на фон зображення */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -48,136 +48,28 @@
 }
 
 .menu-button, .progress-bar, .player-info {
-    background-color: transparent; /* Напівпрозорий фон для читабельності */
+    background-color: rgba(255, 255, 255, 0.5); /* Напівпрозорий фон для читабельності */
     padding: 10px;
     border-radius: 8px;
     margin: 5px;
 }
 
 .menu-button {
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.menu-button:active {
-    background-color: rgba(0, 0, 0, 0.1);
-}
-
-}
-.page {
-    display: none; /* Спочатку всі сторінки приховані */
-    width: 100%;
-    height: 100%;
-    justify-content: center;
-    align-items: center;
-}
-/* Основні стилі */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    width: 100vw;
-    background-color: #f0f4f8;
-    background-image: url('images/nuke.jpg'); /* Встановіть правильний шлях до зображення фону */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    overflow: hidden;
-}
-
-.container {
-    width: 100%;
-    max-width: 600px;
-    text-align: center;
-    position: relative;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 0 15px; /* Відступи для зручності перегляду */
-    box-sizing: border-box;
-}
-
-/* .top-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    background-color: #333;
-    color: white;
-    width: 100%;
-    box-sizing: border-box;
-    border-radius: 10px;
-    margin-top: 10px; */
-}
-
-.menu-button {
-    background-color: #444;
+    background-color: #28a745; /* Зелений фон, такий самий, як у btn-boost */
     color: white;
     border: none;
     padding: 10px 15px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
     border-radius: 5px;
+    transition: background-color 0.3s ease;
 }
 
 .menu-button:active {
-    background-color: #222;
+    background-color: #218838; /* Темніший зелений фон при натисканні */
 }
 
-.progress-bar {
-    flex-grow: 1;
-    text-align: center;
-}
-
-.player-info {
-    text-align: right;
-}
-
-.star {
-    color: gold;
-}
-
-.game-area {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px 0;
-}
-
-#tapImage {
-    max-width: 80%;
-    max-height: 80%;
-    height: auto;
-    cursor: pointer;
-    transition: transform 0.1s ease, filter 0.1s ease;
-}
-
-#tapImage.blur {
-    filter: blur(2px);
-    transform: scale(1.05);
-}
-
-.bottom-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    background-color: #333;
-    color: white;
-    width: 100%;
-    box-sizing: border-box;
-    border-radius: 10px;
-    margin-bottom: 10px;
-}
-
+/* Стилі для кнопок нижнього бару */
 .btn {
-    background-color: #555;
     color: white;
     border: none;
     padding: 10px 15px;
@@ -215,27 +107,34 @@ body {
     background-color: #003366; /* Темніший відтінок для ефекту натискання */
 }
 
-/* Медіа-запити для адаптивності */
-@media (max-width: 768px) {
-    .container {
-        max-width: 100%;
-    }
-
-    .top-bar, .bottom-bar {
-        width: 100%;
-    }
-
-    #tapImage {
-        max-width: 70%;
-    }
+/* Інші стилі залишаються незмінними */
+.page {
+    display: none; /* Спочатку всі сторінки приховані */
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
 }
 
-@media (max-width: 480px) {
-    .top-bar button, .bottom-bar button {
-        padding: 8px 10px;
-    }
+.game-area {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 60px; /* Відступ для верхнього бару */
+}
 
-    #tapImage {
-        max-width: 80%;
-    }
+/* Стили для кнопки "Назад" */
+.back-button {
+    background-color: #444;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:active {
+    background-color: #222;
 }
