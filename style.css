@@ -1,3 +1,37 @@
+/* Стилі для екрану завантаження */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: url('iamges/nuke2.jpg'); /* Можна замінити на фон зображення */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Поверх всього контенту */
+}
+
+.loading-content {
+    text-align: center;
+}
+
+.progress-bar-container {
+    width: 80%;
+    background-color: #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.progress-bar {
+    width: 0;
+    height: 20px;
+    background-color: #4caf50;
+    border-radius: 10px;
+    transition: width 0.5s;
+}
+
 /* Стилі для кнопки "Назад" */
 .back-button {
     position: absolute;
