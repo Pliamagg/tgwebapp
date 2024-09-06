@@ -7,7 +7,6 @@ const tg = window.Telegram.WebApp;
 
 // Отримання початкових даних від бота
 function fetchUserData() {
-    // Викликаємо функцію для запиту даних з бота
     tg.sendData(JSON.stringify({ action: 'fetch_data' }));
 }
 
@@ -16,7 +15,7 @@ tg.onEvent('web_app_data', function(data) {
     const parsedData = JSON.parse(data);
     score = parsedData.score;
     energy = parsedData.energy;
-    updateStats(); // Оновлюємо інтерфейс з отриманими даними
+    updateStats();
 });
 
 // Логіка гри: натискання на монету
@@ -28,10 +27,6 @@ document.getElementById('tapImage').onclick = function() {
 
         // Надсилання даних у Telegram-бот через sendData
         tg.sendData(JSON.stringify({ score: score, energy: energy }));
-        
-        // Додавання ефекту легкого блюру при натисканні
-        this.classList.add('blur');
-        setTimeout(() => this.classList.remove('blur'), 100);
     } else {
         alert('No energy left! Come back tomorrow.');
     }
@@ -43,5 +38,5 @@ function updateStats() {
     document.getElementById('energy').innerText = 'Energy: ' + energy;
 }
 
-// При завантаженні сторінки запитуємо початкові дані
+// Викликаємо функцію для отримання даних користувача при завантаженні сторінки
 fetchUserData();
