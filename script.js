@@ -2,36 +2,24 @@
 let score = 0;
 let energy = 1000;
 
-// Функція для перемикання сторінок
-function showPage(pageId) {
-    document.querySelectorAll('.container').forEach(page => {
-        page.style.display = 'none'; // Приховуємо всі сторінки
-    });
-    document.getElementById(pageId).style.display = 'flex'; // Показуємо обрану сторінку
-
-    // Встановлюємо кнопку "Назад" замість "Menu" для всіх сторінок, крім головної
-    if (pageId !== 'mainPage') {
-        window.Telegram.WebApp.BackButton.show();
-    } else {
-        window.Telegram.WebApp.BackButton.hide();
-    }
-}
-
-// Функція для повернення на головну сторінку
-function goBack() {
-    showPage('mainPage');
-}
-
-// Встановлення дії кнопки "Назад" Telegram Web App
-window.Telegram.WebApp.BackButton.onClick(goBack);
-
-// Отримання інформації про користувача з Telegram
+// Telegram WebApp об'єкт
 const tg = window.Telegram.WebApp;
-const user = tg.initDataUnsafe.user;
-const nickname = user.username || `${user.first_name} ${user.last_name}`;
-document.getElementById('nickname').innerText = `Player: ${nickname}`;
 
-// Логіка гри
+// Отримання початкових даних від бота
+function fetchUserData() {
+    // Викликаємо функцію для запиту даних з бота
+    tg.sendData(JSON.stringify({ action: 'fetch_data' }));
+}
+
+// Обробка отриманих даних з бота
+tg.onEvent('web_app_data', function(data) {
+    const parsedData = JSON.parse(data);
+    score = parsedData.score;
+    energy = parsedData.energy;
+    updateStats(); // Оновлюємо інтерфейс з отриманими даними
+});
+
+// Логіка гри: натискання на монету
 document.getElementById('tapImage').onclick = function() {
     if (energy > 0) {
         score += 10;  // Додаємо очки за кожен тап
@@ -55,14 +43,5 @@ function updateStats() {
     document.getElementById('energy').innerText = 'Energy: ' + energy;
 }
 
-// Отримання початкових даних (очок та енергії) від бота
-function fetchUserData() {
-    tg.sendData(JSON.stringify({ action: 'fetch_data' }));
-}
-
-// Встановлення колірної схеми відповідно до налаштувань Telegram
-tg.expand();
-document.body.style.backgroundColor = tg.themeParams.bg_color || '#ffffff';
-
-// При завантаженні сторінки ініціюємо запит для отримання даних
+// При завантаженні сторінки запитуємо початкові дані
 fetchUserData();
