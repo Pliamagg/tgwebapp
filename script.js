@@ -34,9 +34,12 @@ document.getElementById('nickname').innerText = `Player: ${nickname}`;
 // Логіка гри
 document.getElementById('tapImage').onclick = function() {
     if (energy > 0) {
-        score += 1;
-        energy -= 1;
+        score += 10;  // Додаємо очки за кожен тап
+        energy -= 10; // Зменшуємо енергію за кожен тап
         updateStats();
+
+        // Надсилання даних у Telegram-бот через sendData
+        tg.sendData(JSON.stringify({ score: score, energy: energy }));
         
         // Додавання ефекту легкого блюру при натисканні
         this.classList.add('blur');
@@ -46,26 +49,20 @@ document.getElementById('tapImage').onclick = function() {
     }
 };
 
-// Обробники для кнопок перемикання сторінок
-document.getElementById('friendButton').onclick = function() {
-    showPage('friendPage');
-};
-document.getElementById('boostButton').onclick = function() {
-    showPage('boostPage');
-};
-document.getElementById('shopButton').onclick = function() {
-    showPage('shopPage');
-};
-document.getElementById('claimButton').onclick = function() {
-    showPage('claimPage');
-};
-
 // Функція для оновлення статистики на екрані
 function updateStats() {
     document.getElementById('score').innerText = 'Score: ' + score;
     document.getElementById('energy').innerText = 'Energy: ' + energy;
 }
 
+// Отримання початкових даних (очок та енергії) від бота
+function fetchUserData() {
+    tg.sendData(JSON.stringify({ action: 'fetch_data' }));
+}
+
 // Встановлення колірної схеми відповідно до налаштувань Telegram
 tg.expand();
 document.body.style.backgroundColor = tg.themeParams.bg_color || '#ffffff';
+
+// При завантаженні сторінки ініціюємо запит для отримання даних
+fetchUserData();
