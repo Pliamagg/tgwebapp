@@ -1,7 +1,7 @@
 // Ініціалізація значень гри
 let score = 0;
 let energy = 1000;
-let userId = window.Telegram.WebApp.initDataUnsafe.user.id; // Отримуємо user_id з Telegram
+let userId = window.Telegram.WebApp.initDataUnsafe.user.id; // Використовуємо user_id з Telegram
 
 // Функція для отримання початкових даних від API
 async function fetchUserData() {
