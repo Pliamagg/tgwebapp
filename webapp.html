@@ -55,9 +55,33 @@
             <button class="back-button" onclick="goBack()">Back</button>
         </header>
         <main class="game-area">
-            <!-- Контент сторінки Friend -->
-            <p>Welcome to the Friend page!</p>
+            <img id="avatar" src="images/default-avatar.png" alt="">
+            <div id="userInfo">
+                <p id="userFullName">User Name</p>
+            </div>
+            <div class="container-bg" id="friendMessage">
+                <!-- Контейнер для тексту -->
+                <p>Friend message will go here</p>
+            </div>
+            <div class="referral-container">
+                <div class="referral-link-container">
+                    <p id="referralLink">Your referral link: Loading...</p>
+                </div>
+                <div class="referral-button-container">
+                    <button onclick="copyReferralLink()">Copy</button>
+                </div>
+            </div>
+                <!-- Контейнер для заголовка "Referrals" з чорним фоном -->
+            <div class="referral-header-container">
+                Your Referrals
+            </div>
+            <div class="referral-list">
+                <ul id="referralList">
+                    <!-- Список рефералів оновлюється динамічно -->
+                </ul>
+            </div>
         </main>
+    
     </div>
 
     <div id="boostPage" class="container page" style="display: none;">
