@@ -125,3 +125,64 @@ document.body.style.backgroundColor = tg.themeParams.bg_color || '#ffffff';
 
 // Виклик функції отримання даних при завантаженні сторінки
 fetchUserData();
+
+// Завантаження аватару користувача та його інформації
+if (user) {
+    document.getElementById('avatar').src = user.photo_url || 'images/default-avatar.png';
+    document.getElementById('userFullName').innerText = `${user.first_name} ${user.last_name}`;
+}
+// Функція отримання реферального посилання
+async function fetchReferralLink() {
+    try {
+        let response = await fetch(`http://localhost:5000/referral-link/${userId}`);
+        if (response.ok) {
+            let data = await response.json();
+            document.getElementById('referralLink').innerText = data.referral_link;
+        } else {
+            console.error("Error fetching referral link:", response.statusText);
+        }
+    } catch (error) {
+        console.error("Error fetching referral link:", error);
+    }
+}
+
+// Функція копіювання реферального посилання
+function copyReferralLink() {
+    const referralLink = document.getElementById('referralLink').innerText;
+    navigator.clipboard.writeText(referralLink).then(() => {
+        alert('Referral link copied to clipboard');
+    });
+}
+// Отримання рефералів
+async function fetchReferrals() {
+    try {
+        let response = await fetch(`http://localhost:5000/referrals/${userId}`);
+        if (response.ok) {
+            let referrals = await response.json();
+            updateReferralsList(referrals);
+        } else {
+            console.error("Error fetching referrals:", response.statusText);
+        }
+    } catch (error) {
+        console.error("Error fetching referrals:", error);
+    }
+}
+
+// Оновлення списку рефералів на сторінці
+function updateReferralsList(referrals) {
+    const referralList = document.getElementById('referralList');
+    referralList.innerHTML = '';  // Очищуємо поточний список
+
+    referrals.forEach((referral, index) => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${index + 1}. ${referral.name}: ${referral.points} points`;
+        referralList.appendChild(listItem);
+    });
+}
+
+// Виклик функцій при відкритті сторінки
+document.getElementById('friendButton').onclick = function() {
+    showPage('friendPage');
+    fetchReferralLink();
+    fetchReferrals();
+};
