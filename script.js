@@ -1,11 +1,17 @@
 window.onload = function() {
-    // Коли сторінка повністю завантажиться, приховуємо екран завантаження
     const loadingScreen = document.getElementById('loading-screen');
     const mainContent = document.getElementById('main-content');
-
-    loadingScreen.style.display = 'none';  // Приховуємо екран завантаження
-    mainContent.style.display = 'block';   // Відображаємо основний контент
+    
+    // Мінімальна затримка в 5 секунд
+    setTimeout(() => {
+        loadingScreen.classList.add('hidden');  // Додаємо клас для плавного зникання
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';  // Повністю приховуємо екран після завершення анімації
+            mainContent.style.display = 'block';   // Відображаємо основний контент
+        }, 500);  // Затримка на тривалість анімації (0.5 сек)
+    }, 5000);  // 5000 мілісекунд = 5 секунд
 };
+
 
 // Ініціалізація значень гри
 let score = 0;
