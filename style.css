@@ -29,7 +29,6 @@
 #main-content {
     display: none;
 }
-
 /* Стилі для кнопки "Назад" */
 .back-button {
     position: absolute;
@@ -208,6 +207,7 @@ body {
     width: 100%;
     height: 100%;
     box-sizing: border-box;
+    overflow-y: auto; /* Дозволяє прокрутку контенту */
 }
 
 #friendPage .game-area {
@@ -257,6 +257,7 @@ body {
     text-align: center;
     color: goldenrod; /* Чорний текст */
     border: 3px solid gold;
+    display: inline-block;
 }
 /* Контейнер для заголовка Referrals */
 .referral-header-container {
@@ -339,6 +340,9 @@ body {
     #tapImage {
         max-width: 70%;
     }
+    .container-bg, .referral-container, .referral-list {
+        max-width: 90%; /* Зменшуємо ширину для мобільних */
+    }
 }
 
 @media (max-width: 480px) {
@@ -349,4 +353,9 @@ body {
     #tapImage {
         max-width: 80%;
     }
+    .container-bg, .referral-container, .referral-list {
+        max-width: 95%; /* Для маленьких екранів */
+    }
 }
+
+
