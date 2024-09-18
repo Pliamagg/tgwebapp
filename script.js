@@ -27,6 +27,9 @@ if (!userId) {
     const nickname = user.username || `${user.first_name} ${user.last_name}`;
     document.getElementById('nickname').innerText = `Player: ${nickname}`;
 }
+// Перевірка даних користувача з Telegram
+console.log(tg.initDataUnsafe.user);
+
 
 // Функція для отримання початкових даних від API
 async function fetchUserData() {
