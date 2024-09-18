@@ -5,7 +5,11 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #ffffff; /* Можна змінити фон */
+    background-color: #f0f4f8;
+    background-image: url(images/nuke2.jpg); /* Можна змінити фон */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,9 +18,17 @@
 
 /* Стилі для картинки завантаження */
 #loading-image {
-    width: 100px; /* Розмір картинки */
-    height: 100px;
-    animation: spin 2s linear infinite; /* Анімація для обертання (за бажанням) */
+    width: 100px; /* Ширина картинки */
+    height: 100px; /* Висота картинки */
+    background-image: url('images/bullet.svg'); /* Шлях до SVG картинки */
+    background-size: contain; /* Зображення займає всю область без спотворення */
+    background-repeat: no-repeat; /* Запобігає повторенню картинки */
+    animation: spin 2s linear infinite; /* Анімація обертання */
+    border: none; /* Прибираємо бордер, якщо він є */
+    background-color: transparent; /* Зробимо фон прозорим */
+    display: inline-block; /* Змінюємо display для гнучкості */
+    margin: 0 auto; /* Центруємо */
+    padding: 0; /* Прибираємо відступи */
 }
 
 /* Анімація обертання */
