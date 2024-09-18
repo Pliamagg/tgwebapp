@@ -1,3 +1,12 @@
+window.onload = function() {
+    // Коли сторінка повністю завантажиться, приховуємо екран завантаження
+    const loadingScreen = document.getElementById('loading-screen');
+    const mainContent = document.getElementById('main-content');
+
+    loadingScreen.style.display = 'none';  // Приховуємо екран завантаження
+    mainContent.style.display = 'block';   // Відображаємо основний контент
+};
+
 // Ініціалізація значень гри
 let score = 0;
 let energy = 1000;
