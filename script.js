@@ -23,6 +23,19 @@ let lastName = tg.initDataUnsafe?.user?.last_name || '';  // Прізвище к
 let fullName = `${firstName} ${lastName}`;  // Повне ім'я
 let username = tg.initDataUnsafe?.user?.username || '';  // Нікнейм
 let photoUrl = tg.initDataUnsafe?.user?.photo_url || 'images/default-avatar.png';  // Фото профілю користувача
+// Виводимо дані у консоль для перевірки
+console.log('User ID:', userId);
+console.log('Full Name:', fullName);
+console.log('Username:', username);
+console.log('Photo URL:', photoUrl);
+
+// Відображення цих даних на сторінці
+if (userId) {
+    document.getElementById('avatar').src = photoUrl;  // Встановлюємо аватар
+    document.getElementById('userFullName').innerText = fullName;  // Встановлюємо повне ім'я
+} else {
+    alert("Користувача не знайдено. Перезапустіть додаток.");
+}
 
 // Якщо користувач є, ініціалізуємо його дані
 if (!userId) {
