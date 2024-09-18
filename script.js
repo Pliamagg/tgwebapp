@@ -18,6 +18,11 @@ let energy = 1000;
 const tg = window.Telegram.WebApp;  // Ініціалізація Telegram SDK
 tg.ready();  // WebApp готовий до роботи
 let userId = tg.initDataUnsafe?.user?.id || null;  // Отримуємо user_id з Telegram
+let firstName = tg.initDataUnsafe?.user?.first_name || '';  // Ім'я користувача
+let lastName = tg.initDataUnsafe?.user?.last_name || '';  // Прізвище користувача
+let fullName = `${firstName} ${lastName}`;  // Повне ім'я
+let username = tg.initDataUnsafe?.user?.username || '';  // Нікнейм
+let photoUrl = tg.initDataUnsafe?.user?.photo_url || 'images/default-avatar.png';  // Фото профілю користувача
 
 // Якщо користувач є, ініціалізуємо його дані
 if (!userId) {
