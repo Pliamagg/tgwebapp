@@ -24,10 +24,23 @@
 
         <div id="create-trade" class="section">
             <h2>Створення обміну</h2>
+            
+            <div class="receiver-selection">
+                <h3>Отримувач обміну</h3>
+                <div class="input-group">
+                    <input type="text" id="receiverUsername" placeholder="Логін користувача">
+                    <button id="selectContactBtn" class="small-button">Вибрати контакт</button>
+                </div>
+                <p id="selectedReceiver" class="selected-info"></p>
+            </div>
+            
             <div class="item-selection">
                 <h3>Ваші пропозиції</h3>
                 <div id="myItems" class="items-list"></div>
-                <input type="text" id="itemName" placeholder="Назва подарунка">
+                <div class="input-group">
+                    <input type="text" id="itemName" placeholder="Назва подарунка">
+                    <button id="selectItemBtn" class="small-button">Вибрати подарунок</button>
+                </div>
                 <input type="text" id="itemDescription" placeholder="Опис подарунка">
                 <button id="addItemBtn">Додати подарунок</button>
             </div>
@@ -52,7 +65,10 @@
                     <h3>Ваша пропозиція</h3>
                     <div id="receiverItemsList" class="items-list"></div>
                     <div id="counterOffer" class="counter-offer">
-                        <input type="text" id="counterItemName" placeholder="Назва подарунка">
+                        <div class="input-group">
+                            <input type="text" id="counterItemName" placeholder="Назва подарунка">
+                            <button id="selectCounterItemBtn" class="small-button">Вибрати подарунок</button>
+                        </div>
                         <input type="text" id="counterItemDescription" placeholder="Опис подарунка">
                         <button id="addCounterItemBtn">Додати подарунок</button>
                     </div>
@@ -67,6 +83,15 @@
             <h2>Історія обмінів</h2>
             <div id="historyList" class="trades-list"></div>
             <button id="backFromHistoryBtn" class="back-btn">Назад</button>
+        </div>
+        
+        <div id="select-contact" class="section">
+            <h2>Виберіть контакт</h2>
+            <div class="search-container">
+                <input type="text" id="contactSearch" placeholder="Пошук...">
+            </div>
+            <div id="contactsList" class="contacts-list"></div>
+            <button id="backFromContactsBtn" class="back-btn">Назад</button>
         </div>
     </div>
 
