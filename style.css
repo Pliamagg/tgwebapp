@@ -1,373 +1,166 @@
-/* Стилі для екрану завантаження */
-#loading-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #f0f4f8;
-    background-image: url(images/nuke2.jpg); /* Можна змінити фон */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999; /* Встановлюємо високий пріоритет на екран завантаження */
-}
-
-/* Стилі для картинки завантаження */
-#loading-image {
-    width: 100px; /* Ширина картинки */
-    height: 100px; /* Висота картинки */
-    background-image: url('images/bullet.svg'); /* Шлях до SVG картинки */
-    background-size: contain; /* Зображення займає всю область без спотворення */
-    background-repeat: no-repeat; /* Запобігає повторенню картинки */
-    animation: spin 2s linear infinite; /* Анімація обертання */
-    border: none; /* Прибираємо бордер, якщо він є */
-    background-color: transparent; /* Зробимо фон прозорим */
-    display: inline-block; /* Змінюємо display для гнучкості */
-    margin: 0 auto; /* Центруємо */
-    padding: 0; /* Прибираємо відступи */
-}
-
-/* Анімація обертання */
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Основний контент (прихований спочатку) */
-#main-content {
-    display: none;
-}
-/* Стилі для кнопки "Назад" */
-.back-button {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    background-color: #444;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.back-button:active {
-    background-color: #222;
-}
-.page {
-    display: none; /* Спочатку всі сторінки приховані */
-    width: 100%;
-    height: 100%;
-    justify-content: center;
-    align-items: center;
-}
-/* Основні стилі */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
     margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    width: 100vw;
-    background-color: #f0f4f8;
-    background-image: url('images/nuke.jpg'); /* Встановіть правильний шлях до зображення фону */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    overflow: hidden;
+    transition: background-color 0.3s ease;
 }
 
 .container {
-    width: 100%;
-    max-width: 600px;
-    text-align: center;
-    position: relative;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 0 15px; /* Відступи для зручності перегляду */
-    box-sizing: border-box;
+    max-width: 400px;
+    margin: 0 auto;
 }
 
-.top-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    background-color: #333;
-    color: white;
+button {
+    display: block;
     width: 100%;
-    box-sizing: border-box;
-    border-radius: 10px;
-    margin-top: 10px;
-}
-
-.menu-button {
-    background-color: #444;
-    color: white;
+    padding: 12px;
+    margin: 10px 0;
+    font-size: 16px;
     border: none;
-    padding: 10px 15px;
+    border-radius: 8px;
+    background-color: #3390ec;
+    color: white;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    border-radius: 5px;
+    transition: background-color 0.2s ease;
 }
 
-.menu-button:active {
-    background-color: #222;
+button:hover {
+    background-color: #2a7ed3;
 }
 
-.progress-bar {
-    flex-grow: 1;
-    text-align: center;
+.back-btn {
+    background-color: #8a8a8a;
 }
 
-.player-info {
-    text-align: right;
+.back-btn:hover {
+    background-color: #707070;
 }
 
-.star {
-    color: gold;
+h1 {
+    margin-bottom: 20px;
+    color: #333;
 }
 
-.game-area {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px 0;
+h2 {
+    margin: 15px 0;
+    color: #444;
 }
 
-#tapImage {
-    max-width: 80%;
-    max-height: 80%;
-    height: auto;
-    cursor: pointer;
-    transition: transform 0.1s ease, filter 0.1s ease;
+h3 {
+    text-align: left;
+    margin: 10px 0;
+    color: #555;
 }
 
-#tapImage.blur {
-    filter: blur(2px);
-    transform: scale(1.05);
-}
-
-.bottom-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.user-info {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
     padding: 10px;
-    background-color: #333;
-    color: white;
-    width: 100%;
-    box-sizing: border-box;
-    border-radius: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
-.btn {
-    background-color: #555;
-    color: white;
-    border: none;
-    padding: 10px 15px;
+.section {
+    display: none;
+    animation: fadeIn 0.3s;
+}
+
+.section.active {
+    display: block;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.items-list {
+    background-color: rgba(0, 0, 0, 0.03);
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px 0;
+    min-height: 100px;
+    text-align: left;
+}
+
+.trades-list {
+    margin: 15px 0;
+}
+
+.trade-item {
+    background-color: rgba(0, 0, 0, 0.03);
+    border-radius: 8px;
+    padding: 12px;
+    margin: 10px 0;
+    text-align: left;
     cursor: pointer;
-    flex-grow: 1;
-    margin: 0 5px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, transform 0.1s ease;
+    transition: background-color 0.2s ease;
 }
 
-.btn:active {
-    transform: scale(0.95);
+.trade-item:hover {
+    background-color: rgba(0, 0, 0, 0.06);
 }
 
-.btn-friend {
-    background-color:#444;
+.trade-info {
+    margin: 15px 0;
 }
 
-.btn-boost {
-    background-color:#444;
-}
-
-.btn-shop {
-    background-color:#444;
-}
-
-.btn-claim {
-    background-color:#444;
-}
-
-.btn-friend:active,
-.btn-boost:active,
-.btn-shop:active,
-.btn-claim:active {
-    background-color: #003366; /* Темніший відтінок для ефекту натискання */
-}
-
-#friendPage {
-    display: flex;
-    flex-direction: column; /* Встановлюємо всі елементи в колону */
-    align-items: center;
-    justify-content: flex-start;
-    color: goldenrod;
-    padding-top: 20px;
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    overflow-y: auto; /* Дозволяє прокрутку контенту */
-}
-
-#friendPage .game-area {
-    display: flex;
-    flex-direction: column; /* Розміщуємо вміст в колонку */
-    align-items: center;
-    width: 100%;
-    max-width: 500px; /* Встановлюємо максимальну ширину контейнера */
-}
-
-#avatar {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
+.item {
+    background-color: rgba(51, 144, 236, 0.1);
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin: 8px 0;
     position: relative;
-    z-index: 1;
-    border: 5px solid gold;
-    background-color: white;
 }
 
-#avatar::before {
-    content: "";
-    position: absolute;
-    top: -10px;
-    left: -10px;
-    width: 170px;
-    height: 170px;
-    border-radius: 50%;
-    border: 5px solid black;
-    z-index: -1;
-}
-
-
-
-#userInfo {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.container-bg {
-    background-color:#444; /* Золотий фон */
-    padding: 15px;
-    margin-bottom: 20px;
-    width: 100%;
-    max-width: 500px;
-    border-radius: 10px; /* Згладжені кути */
-    text-align: center;
-    color: goldenrod; /* Чорний текст */
-    border: 3px solid gold;
-    display: inline-block;
-}
-/* Контейнер для заголовка Referrals */
-.referral-header-container {
-    background-color:#444; /* Чорний фон */
-    padding: 10px;
-    display: inline-block; /* Ширина по тексту */
-    border-radius: 10px; /* Згладжені кути */
-    text-align: center;
-    color: goldenrod; /* Золотий текст для контрасту */
+.item-name {
     font-weight: bold;
 }
 
-
-.referral-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    background-color:#444; /* Золотий фон */
-    border: 3px solid gold;
-    border-radius: 10px; /* Згладжені кути */
-    margin-bottom: 20px;
-    width: 100%;
-    max-width: 500px;
+.item-desc {
+    font-size: 14px;
+    color: #666;
 }
 
-.referral-link-container {
-    flex-grow: 1;
-    padding: 10px;
-    text-align: left;
-    margin-right: 10px; /* Відступ для розділення контейнера з кнопкою */
-}
-
-.referral-button-container {
-    display: flex;
-    align-items: center;
-}
-
-.referral-button-container button {
-    background-color: gold;
-    color:#444;
+.remove-item {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background-color: #ff5555;
+    color: white;
     border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
 }
 
-.referral-list {
-    margin-top: 20px;
-    width: 100%;
-    max-width: 500px;
-    text-align: left;
-    padding: 10px;
-    border: 3px solid gold;
-    border-radius: 5px;
-    background-color: #444;
+.counter-offer {
+    margin-top: 15px;
 }
 
-.referral-list ul {
-    list-style-type: none;
-    padding: 0;
-    color: goldenrod;
+.trade-history-item {
+    border-left: 4px solid #3390ec;
+    padding-left: 10px;
 }
 
-.referral-list li {
-    margin-bottom: 10px;
+.completed-trade {
+    border-left-color: #4CAF50;
 }
 
-
-/* Медіа-запити для адаптивності */
-@media (max-width: 768px) {
-    .container {
-        max-width: 100%;
-    }
-
-    .top-bar, .bottom-bar {
-        width: 100%;
-    }
-
-    #tapImage {
-        max-width: 70%;
-    }
-    .container-bg, .referral-container, .referral-list {
-        max-width: 90%; /* Зменшуємо ширину для мобільних */
-    }
+.canceled-trade {
+    border-left-color: #ff5555;
 }
 
-@media (max-width: 480px) {
-    .top-bar button, .bottom-bar button {
-        padding: 8px 10px;
-    }
-
-    #tapImage {
-        max-width: 80%;
-    }
-    .container-bg, .referral-container, .referral-list {
-        max-width: 95%; /* Для маленьких екранів */
-    }
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
-
-
