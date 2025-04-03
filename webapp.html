@@ -20,6 +20,7 @@
             <button id="createTradeBtn">Створити обмін</button>
             <button id="activeTradesBtn">Активні обміни</button>
             <button id="historyBtn">Історія обмінів</button>
+            <button id="myNFTBtn">Мої NFT колекції</button>
         </div>
 
         <div id="create-trade" class="section">
@@ -38,11 +39,9 @@
                 <h3>Ваші пропозиції</h3>
                 <div id="myItems" class="items-list"></div>
                 <div class="input-group">
-                    <input type="text" id="itemName" placeholder="Назва подарунка">
-                    <button id="selectItemBtn" class="small-button">Вибрати подарунок</button>
+                    <button id="addNFTBtn" class="wide-button">Додати NFT</button>
+                    <button id="addItemBtn" class="wide-button">Додати звичайний подарунок</button>
                 </div>
-                <input type="text" id="itemDescription" placeholder="Опис подарунка">
-                <button id="addItemBtn">Додати подарунок</button>
             </div>
             <button id="createOfferBtn">Створити пропозицію</button>
             <button id="backFromCreateBtn" class="back-btn">Назад</button>
@@ -66,11 +65,9 @@
                     <div id="receiverItemsList" class="items-list"></div>
                     <div id="counterOffer" class="counter-offer">
                         <div class="input-group">
-                            <input type="text" id="counterItemName" placeholder="Назва подарунка">
-                            <button id="selectCounterItemBtn" class="small-button">Вибрати подарунок</button>
+                            <button id="addCounterNFTBtn" class="wide-button">Додати NFT</button>
+                            <button id="addCounterItemBtn" class="wide-button">Додати звичайний подарунок</button>
                         </div>
-                        <input type="text" id="counterItemDescription" placeholder="Опис подарунка">
-                        <button id="addCounterItemBtn">Додати подарунок</button>
                     </div>
                 </div>
             </div>
@@ -93,6 +90,25 @@
             <div id="contactsList" class="contacts-list"></div>
             <button id="backFromContactsBtn" class="back-btn">Назад</button>
         </div>
+        
+        <div id="my-nft-collection" class="section">
+            <h2>Мої NFT колекції</h2>
+            <div id="nftCollectionsList" class="nft-collections"></div>
+            <p id="nftEmptyState" class="empty-state">Ви ще не маєте колекцій NFT. Колекції з'являться тут після обміну подарунками.</p>
+            <button id="backFromNFTBtn" class="back-btn">Назад</button>
+        </div>
+        
+        <!-- Шаблони для відображення NFT -->
+        <template id="nft-item-template">
+            <div class="item nft-item-display">
+                <div class="item-nft-tag">NFT</div>
+                <div class="item-nft-image">
+                    <img src="" alt="NFT зображення">
+                </div>
+                <div class="item-name"></div>
+                <div class="item-description"></div>
+            </div>
+        </template>
     </div>
 
     <script src="script.js"></script>
