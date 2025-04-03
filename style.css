@@ -29,6 +29,18 @@ button:hover {
     background-color: #2a7ed3;
 }
 
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.small-button {
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 6px;
+    background-color: #5ca8f3;
+}
+
 .back-btn {
     background-color: #8a8a8a;
 }
@@ -78,6 +90,30 @@ input[type="text"] {
     border-radius: 6px;
 }
 
+.input-group {
+    display: flex;
+    gap: 8px;
+    margin: 8px 0;
+}
+
+.input-group input {
+    flex: 1;
+    margin: 0;
+}
+
+.input-group button {
+    margin: 0;
+    width: auto;
+}
+
+.selected-info {
+    text-align: left;
+    background-color: rgba(51, 144, 236, 0.1);
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin: 8px 0;
+}
+
 .items-list {
     background-color: rgba(0, 0, 0, 0.03);
     border-radius: 8px;
@@ -91,7 +127,13 @@ input[type="text"] {
     margin: 15px 0;
 }
 
-.trade-item {
+.contacts-list {
+    margin: 15px 0;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.contact-item, .trade-item {
     background-color: rgba(0, 0, 0, 0.03);
     border-radius: 8px;
     padding: 12px;
@@ -101,8 +143,39 @@ input[type="text"] {
     transition: background-color 0.2s ease;
 }
 
-.trade-item:hover {
+.contact-item:hover, .trade-item:hover {
     background-color: rgba(0, 0, 0, 0.06);
+}
+
+.contact-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    float: left;
+    margin-right: 10px;
+    background-color: #d1e6fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #3390ec;
+}
+
+.contact-details {
+    margin-left: 50px;
+}
+
+.contact-name {
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.search-container {
+    position: sticky;
+    top: 0;
+    background-color: inherit;
+    padding: 10px 0;
+    z-index: 10;
 }
 
 .trade-info {
