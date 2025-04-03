@@ -1171,44 +1171,54 @@ function createTradeWithCurrentItems() {
 // Запуск додатку
 init();
 
-// Функція для роботи з NFT подарунками
+// Оновлені функції для роботи з нативними NFT подарунками Telegram
+
+// Функція для вибору NFT подарунків Telegram
 async function selectNFTWithTelegramAPI(mode) {
     try {
-        console.log("Вибір NFT колекції...");
+        console.log("Отримання NFT подарунків Telegram...");
         
         // Перевірка чи доступне API колекцій Telegram
-        if (tg && tg.collectibles && typeof tg.collectibles.get === 'function') {
-            // Отримуємо NFT колекції користувача
-            tg.collectibles.get((collectibles) => {
-                if (collectibles && collectibles.length > 0) {
-                    showNFTSelectionMenu(collectibles, mode);
+        if (tg && tg.collectibles && typeof tg.collectibles.getGifts === 'function') {
+            // Отримуємо NFT подарунки користувача через правильний метод
+            tg.collectibles.getGifts((gifts) => {
+                if (gifts && gifts.length > 0) {
+                    // Показуємо інтерфейс вибору NFT
+                    showJellyBunnyNFTSelectionMenu(gifts, mode);
                 } else {
+                    // Показуємо інформацію про відсутність подарунків
                     tg.showPopup({
-                        title: "Немає NFT",
-                        message: "У вас немає NFT колекцій.",
-                        buttons: [{ type: "close" }]
+                        title: "Немає NFT подарунків",
+                        message: "У вас немає NFT подарунків Telegram. Ви можете придбати їх у Telegram за Stars.",
+                        buttons: [
+                            {type: 'default', id: 'buy', text: 'Купити подарунки'},
+                            {type: 'cancel', id: 'close', text: 'Закрити'}
+                        ]
+                    }, function(buttonId) {
+                        if (buttonId === 'buy') {
+                            // Відкриття сторінки покупки подарунків
+                            tg.openTelegramLink("https://t.me/giftexchange/buy");
+                        }
                     });
-                    showBasicGiftSelectionMenu(mode);
+                    
+                    // Показуємо демо для тестування
+                    showJellyBunnyDemoNFTs(mode);
                 }
             });
         } else {
-            console.log("API колекцій Telegram недоступне, використовуємо демо-режим");
-            // Демонстраційний режим, коли API недоступне
-            showDemoNFTSelectionMenu(mode);
+            console.log("API подарунків Telegram не доступне, використовуємо демо");
+            // Демонстраційний режим
+            showJellyBunnyDemoNFTs(mode);
         }
     } catch (error) {
-        console.error("Помилка при виборі NFT:", error);
-        tg.showPopup({
-            title: "Помилка",
-            message: "Сталася помилка при спробі доступу до колекцій NFT. Використовуємо демо-режим.",
-            buttons: [{ type: "close" }]
-        });
-        showDemoNFTSelectionMenu(mode);
+        console.error("Помилка при отриманні NFT подарунків:", error);
+        // Використовуємо демо режим при помилці
+        showJellyBunnyDemoNFTs(mode);
     }
 }
 
-// Функція для відображення меню вибору NFT
-function showNFTSelectionMenu(collectibles, mode) {
+// Функція для відображення меню вибору NFT подарунків Jelly Bunny
+function showJellyBunnyNFTSelectionMenu(gifts, mode) {
     // Створення модального вікна для вибору NFT
     const modal = document.createElement('div');
     modal.className = 'gift-selection-popup';
@@ -1218,37 +1228,56 @@ function showNFTSelectionMenu(collectibles, mode) {
     
     const header = document.createElement('div');
     header.className = 'popup-header';
-    header.innerHTML = '<h3>Виберіть NFT</h3><button class="close-btn">✕</button>';
+    header.innerHTML = '<h3>Виберіть NFT подарунок</h3><button class="close-btn">✕</button>';
     
     const nftList = document.createElement('div');
-    nftList.className = 'nft-list';
+    nftList.className = 'jelly-bunny-list';
     
-    collectibles.forEach(nft => {
+    gifts.forEach(gift => {
         const nftItem = document.createElement('div');
-        nftItem.className = 'nft-item';
+        nftItem.className = 'jelly-bunny-item';
         
-        const nftImage = document.createElement('div');
-        nftImage.className = 'item-nft-image';
-        const img = document.createElement('img');
-        img.src = nft.imageUrl || 'https://via.placeholder.com/100?text=NFT';
-        img.alt = nft.name || 'NFT';
-        nftImage.appendChild(img);
+        // Обробка даних подарунка
+        const nftName = gift.title || gift.name || "Jelly Bunny";
+        const nftModel = gift.metadata?.model || "Стандартний";
+        const nftBackdrop = gift.metadata?.backdrop || "Базовий";
+        const nftSymbol = gift.metadata?.symbol || "";
+        const nftQuantity = gift.metadata?.quantity || "Лімітований випуск";
+        const nftImage = gift.imageUrl || gift.thumbnailUrl || '';
         
-        const nftDetails = document.createElement('div');
-        nftDetails.className = 'nft-details';
-        nftDetails.innerHTML = `
-            <div class="item-name">${nft.name || 'NFT Колекційний предмет'}</div>
-            <div class="item-description">${nft.description || 'Унікальний NFT колекційний предмет'}</div>
+        nftItem.innerHTML = `
+            <div class="jelly-bunny-image">
+                ${nftImage ? `<img src="${nftImage}" alt="${nftName}">` : 
+                '<div class="jelly-bunny-placeholder">JB</div>'}
+            </div>
+            <div class="jelly-bunny-info">
+                <div class="jelly-bunny-name">${nftName}</div>
+                <div class="jelly-bunny-details">
+                    <div><strong>Модель:</strong> ${nftModel}</div>
+                    <div><strong>Фон:</strong> ${nftBackdrop}</div>
+                    ${nftSymbol ? `<div><strong>Символ:</strong> ${nftSymbol}</div>` : ''}
+                    <div class="jelly-bunny-rarity">${nftQuantity}</div>
+                </div>
+            </div>
         `;
-        
-        nftItem.appendChild(nftImage);
-        nftItem.appendChild(nftDetails);
         
         nftItem.addEventListener('click', () => {
             if (mode === 'add') {
-                addNFTToExchange(nft.id, nft.name, nft.description, nft.imageUrl);
+                addJellyBunnyToExchange(
+                    gift.id, 
+                    nftName, 
+                    `${nftModel} | ${nftBackdrop}${nftSymbol ? ' | ' + nftSymbol : ''}`, 
+                    nftImage,
+                    gift.metadata
+                );
             } else if (mode === 'counter') {
-                addCounterNFT(nft.id, nft.name, nft.description, nft.imageUrl);
+                addCounterJellyBunny(
+                    gift.id, 
+                    nftName, 
+                    `${nftModel} | ${nftBackdrop}${nftSymbol ? ' | ' + nftSymbol : ''}`, 
+                    nftImage,
+                    gift.metadata
+                );
             }
             document.body.removeChild(modal);
         });
@@ -1266,139 +1295,289 @@ function showNFTSelectionMenu(collectibles, mode) {
     });
     
     document.body.appendChild(modal);
+    
+    // Додаємо стилі для Jelly Bunny
+    const jellyBunnyStyle = document.createElement('style');
+    jellyBunnyStyle.textContent = `
+        .jelly-bunny-list {
+            max-height: 460px;
+            overflow-y: auto;
+            padding: 8px;
+        }
+        .jelly-bunny-item {
+            display: flex;
+            margin-bottom: 12px;
+            padding: 12px;
+            border-radius: 12px;
+            background: var(--tg-theme-secondary-bg-color, #f5f5f5);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .jelly-bunny-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .jelly-bunny-image {
+            width: 70px;
+            height: 70px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        .jelly-bunny-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .jelly-bunny-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #8a2be2, #4169e1);
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        .jelly-bunny-info {
+            flex: 1;
+            text-align: left;
+        }
+        .jelly-bunny-name {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 6px;
+            color: var(--tg-theme-text-color, #000);
+        }
+        .jelly-bunny-details {
+            font-size: 12px;
+            color: var(--tg-theme-hint-color, #666);
+            line-height: 1.4;
+        }
+        .jelly-bunny-rarity {
+            margin-top: 4px;
+            font-size: 11px;
+            color: #8a2be2;
+            font-weight: bold;
+        }
+        @keyframes jellyGlow {
+            0%, 100% {
+                box-shadow: 0 0 8px rgba(138, 43, 226, 0.6);
+            }
+            50% {
+                box-shadow: 0 0 16px rgba(138, 43, 226, 0.8);
+            }
+        }
+    `;
+    document.head.appendChild(jellyBunnyStyle);
 }
 
-// Функція для демонстрації меню NFT, коли API недоступне
-function showDemoNFTSelectionMenu(mode) {
-    // Демо NFT
-    const demoNFTs = [
+// Функція для демонстрації Jelly Bunny NFT
+function showJellyBunnyDemoNFTs(mode) {
+    // Створюємо демо дані для Jelly Bunny NFT
+    const demoJellyBunnies = [
         {
-            id: 'nft1',
-            name: 'Унікальний стікер',
-            description: 'Рідкісний стікер з колекції Telegram',
-            imageUrl: 'https://via.placeholder.com/100?text=Sticker'
+            id: 'jb-13829',
+            title: 'Jelly Bunny Collectible #13829',
+            imageUrl: 'https://telegram.org/img/t_logo.svg', // Заглушка для демо
+            metadata: {
+                model: 'Pirate 1.5%',
+                backdrop: 'Steel Grey 2%',
+                symbol: 'Cursor 0.2%',
+                quantity: '60 508/129 350 issued',
+                owner: '𝐉𝐚𝐜𝐤 // 𝐏𝐈𝐑𝐀𝐓𝐄 𝐂𝐏𝐀'
+            }
         },
         {
-            id: 'nft2',
-            name: 'Цифровий аватар',
-            description: 'Ексклюзивний цифровий аватар для профілю',
-            imageUrl: 'https://via.placeholder.com/100?text=Avatar'
+            id: 'jb-24601',
+            title: 'Jelly Bunny Collectible #24601',
+            imageUrl: 'https://telegram.org/img/t_logo.svg', // Заглушка для демо
+            metadata: {
+                model: 'Cowboy 2.5%',
+                backdrop: 'Desert Gold 3%',
+                symbol: 'Star 0.5%',
+                quantity: '42 123/129 350 issued',
+                owner: 'Поточний користувач'
+            }
         },
         {
-            id: 'nft3',
-            name: 'Emoji-NFT',
-            description: 'Унікальний емодзі для вашого каналу',
-            imageUrl: 'https://via.placeholder.com/100?text=Emoji'
+            id: 'jb-10101',
+            title: 'Jelly Bunny Collectible #10101',
+            imageUrl: 'https://telegram.org/img/t_logo.svg', // Заглушка для демо
+            metadata: {
+                model: 'Wizard 1.2%',
+                backdrop: 'Mystic Purple 2.2%',
+                symbol: 'Wand 0.3%',
+                quantity: '32 456/129 350 issued',
+                owner: 'Поточний користувач'
+            }
         }
     ];
     
-    showNFTSelectionMenu(demoNFTs, mode);
+    // Відображаємо демо подарунки
+    showJellyBunnyNFTSelectionMenu(demoJellyBunnies, mode);
 }
 
-// Функція для додавання NFT до пропозиції обміну
-function addNFTToExchange(nftId, name, description, imageUrl) {
-    const myItems = document.getElementById("myItems");
+// Додавання Jelly Bunny подарунка до обміну
+function addJellyBunnyToExchange(nftId, name, details, imageUrl, metadata) {
+    const myItemsList = document.getElementById("myItems");
     
-    // Використання шаблону
-    const template = document.getElementById('nft-item-template');
-    const nftItem = document.importNode(template.content, true);
+    // Створюємо новий елемент для подарунка
+    const jellyBunnyElement = document.createElement('div');
+    jellyBunnyElement.className = 'item jelly-bunny-display';
     
-    // Заповнення даними
-    nftItem.querySelector('.item-name').textContent = name || 'NFT Предмет';
-    nftItem.querySelector('.item-description').textContent = description || 'Унікальний NFT предмет';
+    // Створюємо HTML для відображення подарунка
+    jellyBunnyElement.innerHTML = `
+        <div class="item-nft-tag">JELLY BUNNY</div>
+        <div class="item-nft-image">
+            ${imageUrl ? `<img src="${imageUrl}" alt="${name}">` : '<div class="jelly-bunny-placeholder">JB</div>'}
+        </div>
+        <div class="item-name">${name}</div>
+        <div class="item-description">${details}</div>
+        <div class="jelly-bunny-rarity">${metadata?.quantity || 'Рідкісний предмет'}</div>
+    `;
     
-    if (imageUrl) {
-        nftItem.querySelector('.item-nft-image img').src = imageUrl;
-    }
+    // Додаємо до відображення
+    myItemsList.appendChild(jellyBunnyElement);
     
-    // Додаємо в DOM
-    myItems.appendChild(nftItem);
-    
-    // Додаємо до items глобально
-    items.push({
+    // Додаємо до глобального списку предметів
+    myItems.push({
         id: nftId,
-        name: name || 'NFT Предмет', 
-        description: description || 'Унікальний NFT предмет',
+        name: name,
+        description: details,
         isNFT: true,
-        imageUrl: imageUrl
+        isJellyBunny: true,
+        imageUrl: imageUrl,
+        metadata: metadata
     });
     
+    // Повідомлення про успішне додавання
     tg.showPopup({
-        title: "NFT додано",
-        message: `${name || 'NFT Предмет'} додано до пропозиції обміну.`,
+        title: "Подарунок додано",
+        message: `${name} додано до пропозиції обміну.`,
         buttons: [{ type: "close" }]
     });
+    
+    // Оновлюємо кнопку MainButton
+    updateMainButton();
 }
 
-// Функція для додавання NFT до пропозиції контрагента
-function addCounterNFT(nftId, name, description, imageUrl) {
+// Додавання Jelly Bunny подарунка до контр-пропозиції
+function addCounterJellyBunny(nftId, name, details, imageUrl, metadata) {
     const receiverItemsList = document.getElementById("receiverItemsList");
     
-    // Використання шаблону
-    const template = document.getElementById('nft-item-template');
-    const nftItem = document.importNode(template.content, true);
+    // Створюємо новий елемент для подарунка
+    const jellyBunnyElement = document.createElement('div');
+    jellyBunnyElement.className = 'item jelly-bunny-display';
     
-    // Заповнення даними
-    nftItem.querySelector('.item-name').textContent = name || 'NFT Предмет';
-    nftItem.querySelector('.item-description').textContent = description || 'Унікальний NFT предмет';
+    // Створюємо HTML для відображення подарунка
+    jellyBunnyElement.innerHTML = `
+        <div class="item-nft-tag">JELLY BUNNY</div>
+        <div class="item-nft-image">
+            ${imageUrl ? `<img src="${imageUrl}" alt="${name}">` : '<div class="jelly-bunny-placeholder">JB</div>'}
+        </div>
+        <div class="item-name">${name}</div>
+        <div class="item-description">${details}</div>
+        <div class="jelly-bunny-rarity">${metadata?.quantity || 'Рідкісний предмет'}</div>
+    `;
     
-    if (imageUrl) {
-        nftItem.querySelector('.item-nft-image img').src = imageUrl;
+    // Додаємо до відображення
+    receiverItemsList.appendChild(jellyBunnyElement);
+    
+    if (!counterItems) {
+        counterItems = [];
     }
     
-    // Додаємо в DOM
-    receiverItemsList.appendChild(nftItem);
-    
-    // Додаємо до counterItems глобально
+    // Додаємо до глобального списку контр-пропозицій
     counterItems.push({
         id: nftId,
-        name: name || 'NFT Предмет', 
-        description: description || 'Унікальний NFT предмет',
+        name: name,
+        description: details,
         isNFT: true,
-        imageUrl: imageUrl
+        isJellyBunny: true,
+        imageUrl: imageUrl,
+        metadata: metadata
     });
     
+    // Повідомлення про успішне додавання
     tg.showPopup({
-        title: "NFT додано",
-        message: `${name || 'NFT Предмет'} додано до вашої зустрічної пропозиції.`,
+        title: "Подарунок додано",
+        message: `${name} додано до вашої зустрічної пропозиції.`,
         buttons: [{ type: "close" }]
     });
 }
 
-// Функція для показу звичайного меню вибору подарунка
-function showBasicGiftSelectionMenu(mode) {
-    tg.showPopup({
-        title: "Звичайний подарунок",
-        message: "Оскільки у вас поки немає NFT, ви можете додати звичайний подарунок. Коли з'явиться API NFT Telegram, ви зможете використовувати справжні NFT.",
-        buttons: [
-            { id: "basicGift", type: "default", text: "Додати звичайний подарунок" },
-            { type: "cancel" }
-        ]
-    }, (buttonId) => {
-        if (buttonId === "basicGift") {
-            const gifts = [
-                "Стікер-пак",
-                "Віртуальний аватар",
-                "Емодзі-набір",
-                "Telegram Premium на місяць",
-                "Цифрова листівка"
-            ];
-            
-            const giftName = gifts[Math.floor(Math.random() * gifts.length)];
-            const description = "Віртуальний подарунок";
-            
-            if (mode === 'add') {
-                addNFTToExchange('basic-' + Date.now(), giftName, description, null);
-            } else if (mode === 'counter') {
-                addCounterNFT('basic-' + Date.now(), giftName, description, null);
-            }
+// Оновлення відображення предметів користувача для підтримки Jelly Bunny
+function renderMyItems() {
+    const container = document.getElementById('myItems');
+    container.innerHTML = '';
+    
+    if (myItems.length === 0) {
+        container.innerHTML = '<p>Додайте подарунки для обміну</p>';
+        return;
+    }
+    
+    myItems.forEach((item, index) => {
+        const itemElement = document.createElement('div');
+        
+        // Визначаємо клас відповідно до типу подарунка
+        if (item.isJellyBunny) {
+            itemElement.className = 'item jelly-bunny-display';
+        } else if (item.isNFT) {
+            itemElement.className = 'item nft-item-display';
+        } else {
+            itemElement.className = 'item';
         }
+        
+        // Відображення Jelly Bunny з особливим форматуванням
+        let itemContent = '';
+        if (item.isJellyBunny) {
+            itemContent += `
+                <div class="item-nft-tag">JELLY BUNNY</div>
+                ${item.imageUrl ? `<div class="item-nft-image"><img src="${item.imageUrl}" alt="${item.name}"></div>` : ''}
+                <div class="item-name">${item.name}</div>
+                <div class="item-description">${item.description}</div>
+                <div class="jelly-bunny-rarity">${item.metadata?.quantity || 'Рідкісний предмет'}</div>
+            `;
+        } else if (item.isNFT) {
+            itemContent += `
+                <div class="item-nft-tag">NFT</div>
+                ${item.imageUrl ? `<div class="item-nft-image"><img src="${item.imageUrl}" alt="${item.name}"></div>` : ''}
+                <div class="item-name">${item.name}</div>
+                <div class="item-description">${item.description}</div>
+            `;
+        } else {
+            itemContent += `
+                <div class="item-name">${item.name}</div>
+                ${item.description ? `<div class="item-description">${item.description}</div>` : ''}
+            `;
+        }
+        
+        // Додаємо кнопку видалення
+        itemContent += `<button class="remove-item" data-index="${index}">✕</button>`;
+        
+        itemElement.innerHTML = itemContent;
+        container.appendChild(itemElement);
+    });
+    
+    // Додавання обробників для кнопок видалення
+    document.querySelectorAll('.remove-item').forEach(button => {
+        button.addEventListener('click', function() {
+            const index = parseInt(this.getAttribute('data-index'));
+            myItems.splice(index, 1);
+            renderMyItems();
+            
+            // Оновлюємо головну кнопку після зміни списку предметів
+            updateMainButton();
+        });
     });
 }
 
-// Оновлення слухачів подій для NFT кнопок
+// Оновлення слухачів подій для Jelly Bunny NFT кнопок
 document.addEventListener('DOMContentLoaded', function() {
-    // Додаємо слухачі для нових кнопок NFT
+    // Додаємо слухачі для кнопок NFT подарунків
     document.getElementById('addNFTBtn').addEventListener('click', function() {
         selectNFTWithTelegramAPI('add');
     });
@@ -1408,16 +1587,22 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     document.getElementById('myNFTBtn').addEventListener('click', function() {
-        showMyNFTCollections();
+        showMyJellyBunnyCollection();
     });
     
     document.getElementById('backFromNFTBtn').addEventListener('click', function() {
-        showSection('main-menu');
+        showSection('mainMenu');
+    });
+    
+    // Додаємо обробник для кнопки купівлі NFT
+    document.getElementById('buyNFTBtn').addEventListener('click', function() {
+        // Відкриття сторінки покупки NFT подарунків в Telegram
+        tg.openTelegramLink("https://t.me/giftshop");
     });
 });
 
-// Функція для відображення колекцій NFT користувача
-function showMyNFTCollections() {
+// Функція для відображення колекції Jelly Bunny користувача
+function showMyJellyBunnyCollection() {
     showSection('my-nft-collection');
     
     try {
@@ -1427,127 +1612,276 @@ function showMyNFTCollections() {
         // Очищення списку
         nftCollectionsList.innerHTML = '';
         
-        // Перевірка чи доступне API колекцій Telegram
-        if (tg && tg.collectibles && typeof tg.collectibles.get === 'function') {
-            // Отримуємо NFT колекції користувача з API
-            tg.collectibles.get((collectibles) => {
-                if (collectibles && collectibles.length > 0) {
+        // Перевірка чи доступне API подарунків Telegram
+        if (tg && tg.collectibles && typeof tg.collectibles.getGifts === 'function') {
+            // Отримуємо NFT подарунки користувача з API
+            tg.collectibles.getGifts((gifts) => {
+                if (gifts && gifts.length > 0) {
                     nftEmptyState.style.display = 'none';
-                    collectibles.forEach(nft => {
-                        // Використання шаблону
-                        const template = document.getElementById('nft-item-template');
-                        const nftItem = document.importNode(template.content, true);
-                        
-                        // Заповнення даними
-                        nftItem.querySelector('.item-name').textContent = nft.name || 'NFT Предмет';
-                        nftItem.querySelector('.item-description').textContent = nft.description || 'Унікальний NFT предмет';
-                        
-                        if (nft.imageUrl) {
-                            nftItem.querySelector('.item-nft-image img').src = nft.imageUrl;
-                        }
-                        
-                        // Додаємо в DOM
-                        nftCollectionsList.appendChild(nftItem);
+                    gifts.forEach(gift => {
+                        // Додаємо кожен Jelly Bunny подарунок до колекції
+                        addJellyBunnyToCollection(
+                            gift.id, 
+                            gift.title || gift.name || "Jelly Bunny",
+                            gift.metadata?.model,
+                            gift.metadata?.backdrop,
+                            gift.metadata?.symbol,
+                            gift.metadata?.quantity,
+                            gift.imageUrl || gift.thumbnailUrl
+                        );
                     });
                 } else {
                     nftEmptyState.style.display = 'block';
                 }
             });
         } else {
-            // Демо режим
-            console.log("API колекцій недоступне, показуємо демо-дані");
+            // Демо режим для тестування
+            console.log("API подарунків недоступне, показуємо демо-дані");
             nftEmptyState.style.display = 'none';
             
-            // Демо NFT
-            const demoNFTs = [
-                {
-                    name: 'Унікальний стікер',
-                    description: 'Рідкісний стікер з колекції Telegram',
-                    imageUrl: 'https://via.placeholder.com/100?text=Sticker'
-                },
-                {
-                    name: 'Цифровий аватар',
-                    description: 'Ексклюзивний цифровий аватар для профілю',
-                    imageUrl: 'https://via.placeholder.com/100?text=Avatar'
-                }
-            ];
+            // Демо подарунки Jelly Bunny
+            addJellyBunnyToCollection(
+                'jb-13829',
+                'Jelly Bunny Collectible #13829',
+                'Pirate 1.5%',
+                'Steel Grey 2%',
+                'Cursor 0.2%',
+                '60 508/129 350 issued',
+                'https://telegram.org/img/t_logo.svg'
+            );
             
-            demoNFTs.forEach(nft => {
-                // Використання шаблону
-                const template = document.getElementById('nft-item-template');
-                const nftItem = document.importNode(template.content, true);
-                
-                // Заповнення даними
-                nftItem.querySelector('.item-name').textContent = nft.name;
-                nftItem.querySelector('.item-description').textContent = nft.description;
-                
-                if (nft.imageUrl) {
-                    nftItem.querySelector('.item-nft-image img').src = nft.imageUrl;
-                }
-                
-                // Додаємо в DOM
-                nftCollectionsList.appendChild(nftItem);
-            });
+            addJellyBunnyToCollection(
+                'jb-24601',
+                'Jelly Bunny Collectible #24601',
+                'Cowboy 2.5%',
+                'Desert Gold 3%',
+                'Star 0.5%',
+                '42 123/129 350 issued',
+                'https://telegram.org/img/t_logo.svg'
+            );
         }
     } catch (error) {
-        console.error("Помилка при завантаженні NFT колекцій:", error);
+        console.error("Помилка при завантаженні NFT подарунків:", error);
         document.getElementById('nftEmptyState').style.display = 'block';
-        document.getElementById('nftEmptyState').textContent = 'Виникла помилка при завантаженні NFT колекцій. Спробуйте пізніше.';
+        document.getElementById('nftEmptyState').textContent = 'Виникла помилка при завантаженні NFT подарунків. Спробуйте пізніше.';
     }
 }
 
-// Функції для роботи зі звичайними подарунками (старий функціонал)
-// Оновлений для сумісності з NFT
+// Додавання Jelly Bunny до колекції
+function addJellyBunnyToCollection(id, name, model, backdrop, symbol, quantity, imageUrl) {
+    const nftCollectionsList = document.getElementById('nftCollectionsList');
+    
+    // Створюємо новий елемент для подарунка
+    const jellyBunnyElement = document.createElement('div');
+    jellyBunnyElement.className = 'item jelly-bunny-display';
+    jellyBunnyElement.setAttribute('data-id', id);
+    
+    // Створюємо HTML для відображення подарунка
+    jellyBunnyElement.innerHTML = `
+        <div class="item-nft-tag">JELLY BUNNY</div>
+        <div class="item-nft-image">
+            ${imageUrl ? `<img src="${imageUrl}" alt="${name}">` : '<div class="jelly-bunny-placeholder">JB</div>'}
+        </div>
+        <div class="item-name">${name}</div>
+        <div class="item-description">
+            ${model ? `<div><strong>Модель:</strong> ${model}</div>` : ''}
+            ${backdrop ? `<div><strong>Фон:</strong> ${backdrop}</div>` : ''}
+            ${symbol ? `<div><strong>Символ:</strong> ${symbol}</div>` : ''}
+        </div>
+        <div class="jelly-bunny-rarity">${quantity || 'Рідкісний предмет'}</div>
+    `;
+    
+    // Додаємо в DOM
+    nftCollectionsList.appendChild(jellyBunnyElement);
+}
 
-function addItem() {
-    tg.showPopup({
-        title: "Звичайний подарунок",
-        message: "Введіть назву подарунка:",
-        buttons: [
-            { type: "default", id: "continue", text: "Продовжити" },
-            { type: "cancel" }
-        ]
-    }, (buttonId) => {
-        if (buttonId === "continue") {
-            tg.showPopup({
-                title: "Назва подарунка",
-                message: "Введіть назву вашого подарунка:",
-                buttons: [{ type: "cancel" }]
-            }, (value) => {
-                if (value && value.trim()) {
-                    const itemName = value.trim();
-                    
-                    tg.showPopup({
-                        title: "Опис подарунка",
-                        message: "Введіть опис вашого подарунка:",
-                        buttons: [{ type: "cancel" }]
-                    }, (description) => {
-                        description = description || "Звичайний подарунок";
-                        
-                        const myItems = document.getElementById("myItems");
-                        const item = document.createElement("div");
-                        item.className = "item";
-                        item.innerHTML = `
-                            <div class="item-name">${itemName}</div>
-                            <div class="item-description">${description}</div>
-                        `;
-                        myItems.appendChild(item);
-                        
-                        items.push({
-                            id: Date.now(),
-                            name: itemName,
-                            description: description,
-                            isNFT: false
-                        });
-                        
-                        tg.showPopup({
-                            title: "Подарунок додано",
-                            message: `${itemName} додано до вашої пропозиції.`,
-                            buttons: [{ type: "close" }]
-                        });
-                    });
-                }
+// Функція для відображення списку активних обмінів з підтримкою Jelly Bunny
+function renderTradesList() {
+    const container = document.getElementById('tradesList');
+    container.innerHTML = '';
+    
+    if (activeTrades.length === 0) {
+        container.innerHTML = '<p>Немає активних обмінів</p>';
+        return;
+    }
+    
+    activeTrades.forEach(trade => {
+        const isInitiator = trade.senderId === currentUser.id;
+        const otherUser = isInitiator ? trade.receiverName : trade.senderName;
+        
+        const tradeElement = document.createElement('div');
+        tradeElement.className = 'trade-item';
+        tradeElement.setAttribute('data-trade-id', trade.id);
+        
+        // Підраховуємо кількість NFT подарунків у пропозиції
+        const nftItemsCount = trade.items.filter(item => item.isJellyBunny).length;
+        const totalItemsCount = trade.items.length;
+        
+        let statusText = '';
+        switch (trade.status) {
+            case 'pending':
+                statusText = isInitiator ? 'Очікує відповіді' : 'Нова пропозиція';
+                break;
+            case 'waiting_confirmation':
+                statusText = 'Очікує підтвердження';
+                break;
+            case 'confirmed_by_sender':
+                statusText = isInitiator ? 'Ви підтвердили' : 'Відправник підтвердив';
+                break;
+            case 'confirmed_by_receiver':
+                statusText = isInitiator ? 'Отримувач підтвердив' : 'Ви підтвердили';
+                break;
+        }
+        
+        tradeElement.innerHTML = `
+            <div><strong>${isInitiator ? 'До' : 'Від'}: ${otherUser}</strong></div>
+            <div>Предмети: ${totalItemsCount} (${nftItemsCount} NFT)</div>
+            <div>Статус: ${statusText}</div>
+        `;
+        
+        tradeElement.addEventListener('click', () => openTradeDetails(trade.id));
+        container.appendChild(tradeElement);
+    });
+}
+
+// Відкриття деталей обміну з підтримкою Jelly Bunny
+function openTradeDetails(tradeId) {
+    currentTradeId = tradeId;
+    const trade = activeTrades.find(t => t.id === tradeId);
+    
+    if (!trade) {
+        showNotification('Обмін не знайдено');
+        return;
+    }
+    
+    const isInitiator = trade.senderId === currentUser.id;
+    
+    // Відображення предметів відправника
+    const senderItemsList = document.getElementById('senderItemsList');
+    senderItemsList.innerHTML = '';
+    
+    trade.items.forEach(item => {
+        let itemElement;
+        
+        if (item.isJellyBunny) {
+            // Відображення Jelly Bunny
+            itemElement = document.createElement('div');
+            itemElement.className = 'item jelly-bunny-display';
+            itemElement.innerHTML = `
+                <div class="item-nft-tag">JELLY BUNNY</div>
+                ${item.imageUrl ? `<div class="item-nft-image"><img src="${item.imageUrl}" alt="${item.name}"></div>` : ''}
+                <div class="item-name">${item.name}</div>
+                <div class="item-description">${item.description}</div>
+                ${item.metadata?.quantity ? `<div class="jelly-bunny-rarity">${item.metadata.quantity}</div>` : ''}
+            `;
+        } else if (item.isNFT) {
+            // Відображення інших NFT
+            itemElement = document.createElement('div');
+            itemElement.className = 'item nft-item-display';
+            itemElement.innerHTML = `
+                <div class="item-nft-tag">NFT</div>
+                ${item.imageUrl ? `<div class="item-nft-image"><img src="${item.imageUrl}" alt="${item.name}"></div>` : ''}
+                <div class="item-name">${item.name}</div>
+                <div class="item-description">${item.description}</div>
+            `;
+        } else {
+            // Звичайні предмети
+            itemElement = document.createElement('div');
+            itemElement.className = 'item';
+            itemElement.innerHTML = `
+                <div class="item-name">${item.name}</div>
+                ${item.description ? `<div class="item-description">${item.description}</div>` : ''}
+            `;
+        }
+        
+        senderItemsList.appendChild(itemElement);
+    });
+    
+    // Відображення предметів отримувача (контр-пропозиція)
+    const receiverItemsList = document.getElementById('receiverItemsList');
+    receiverItemsList.innerHTML = '';
+    
+    if (trade.counterOffer.length > 0) {
+        trade.counterOffer.forEach((item, index) => {
+            let itemElement;
+            
+            if (item.isJellyBunny) {
+                // Відображення Jelly Bunny в контрпропозиції
+                itemElement = document.createElement('div');
+                itemElement.className = 'item jelly-bunny-display';
+                itemElement.innerHTML = `
+                    <div class="item-nft-tag">JELLY BUNNY</div>
+                    ${item.imageUrl ? `<div class="item-nft-image"><img src="${item.imageUrl}" alt="${item.name}"></div>` : ''}
+                    <div class="item-name">${item.name}</div>
+                    <div class="item-description">${item.description}</div>
+                    ${item.metadata?.quantity ? `<div class="jelly-bunny-rarity">${item.metadata.quantity}</div>` : ''}
+                    ${isInitiator ? '' : `<button class="remove-item" data-index="${index}">✕</button>`}
+                `;
+            } else if (item.isNFT) {
+                // Відображення інших NFT в контрпропозиції
+                itemElement = document.createElement('div');
+                itemElement.className = 'item nft-item-display';
+                itemElement.innerHTML = `
+                    <div class="item-nft-tag">NFT</div>
+                    ${item.imageUrl ? `<div class="item-nft-image"><img src="${item.imageUrl}" alt="${item.name}"></div>` : ''}
+                    <div class="item-name">${item.name}</div>
+                    <div class="item-description">${item.description}</div>
+                    ${isInitiator ? '' : `<button class="remove-item" data-index="${index}">✕</button>`}
+                `;
+            } else {
+                // Звичайні предмети в контрпропозиції
+                itemElement = document.createElement('div');
+                itemElement.className = 'item';
+                itemElement.innerHTML = `
+                    <div class="item-name">${item.name}</div>
+                    ${item.description ? `<div class="item-description">${item.description}</div>` : ''}
+                    ${isInitiator ? '' : `<button class="remove-item" data-index="${index}">✕</button>`}
+                `;
+            }
+            
+            receiverItemsList.appendChild(itemElement);
+        });
+        
+        // Додавання обробників для кнопок видалення (тільки для отримувача)
+        if (!isInitiator) {
+            document.querySelectorAll('#receiverItemsList .remove-item').forEach(button => {
+                button.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    trade.counterOffer.splice(index, 1);
+                    openTradeDetails(tradeId); // Оновлення відображення
+                });
             });
         }
-    });
+    } else {
+        receiverItemsList.innerHTML = '<p>Немає предметів у відповідь</p>';
+    }
+    
+    // Контроль видимості блоку додавання контр-пропозиції
+    const counterOfferBlock = document.getElementById('counterOffer');
+    counterOfferBlock.style.display = isInitiator ? 'none' : 'block';
+    
+    // Оновлення стану кнопки підтвердження
+    const confirmBtn = document.getElementById('confirmTradeBtn');
+    let canConfirm = false;
+    
+    if (isInitiator) {
+        // Для відправника - може підтвердити, якщо є контр-пропозиція
+        canConfirm = trade.counterOffer.length > 0 && 
+                    (trade.status === 'waiting_confirmation' || trade.status === 'confirmed_by_receiver');
+    } else {
+        // Для отримувача - може підтвердити, якщо додав контр-пропозицію
+        canConfirm = trade.counterOffer.length > 0 && 
+                    (trade.status === 'pending' || trade.status === 'confirmed_by_sender');
+    }
+    
+    // Перевірка балансу Stars
+    if (canConfirm && starsBalance < 35) {
+        confirmBtn.disabled = true;
+        confirmBtn.textContent = 'Недостатньо Stars';
+    } else {
+        confirmBtn.disabled = !canConfirm;
+        confirmBtn.textContent = 'Підтвердити (35 Stars)';
+    }
+    
+    showSection('tradeDetails');
 }
