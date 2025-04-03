@@ -1,5 +1,3 @@
-
-
 // Ініціалізація Telegram WebApp
 const tg = window.Telegram.WebApp;
 tg.expand();
@@ -16,6 +14,9 @@ let currentUser = tg.initDataUnsafe?.user || {
     username: "test_user"
 };
 
+// Вибраний отримувач для обміну
+let selectedReceiver = null;
+
 // Віртуальний баланс для тестування
 let starsBalance = 500; // В реальному додатку це має отримуватись із Telegram API
 
@@ -25,14 +26,37 @@ let activeTrades = [];
 let tradeHistory = [];
 let currentTradeId = null;
 
+// Тестові дані контактів
+let contacts = [
+    { id: 87654321, first_name: "Alice", last_name: "Smith", username: "alice_s" },
+    { id: 55443322, first_name: "Bob", last_name: "Johnson", username: "bob_j" },
+    { id: 11223344, first_name: "Carol", last_name: "Williams", username: "carol_w" },
+    { id: 99887766, first_name: "Dave", last_name: "Brown", username: "dave_b" },
+    { id: 12312312, first_name: "Eve", last_name: "Davis", username: "eve_d" }
+];
+
+// Тестовий список подарунків користувача
+let myGifts = [
+    { id: 1, name: "Книга", description: "Роман 'Майстер і Маргарита'" },
+    { id: 2, name: "Футболка", description: "Футболка з логотипом Telegram" },
+    { id: 3, name: "Квитки", description: "Квитки на концерт" },
+    { id: 4, name: "Сертифікат", description: "Подарунковий сертифікат на 500 грн" },
+    { id: 5, name: "Іграшка", description: "М'яка іграшка - панда" }
+];
+
 // Елементи інтерфейсу
 const sections = {
     mainMenu: document.getElementById('main-menu'),
     createTrade: document.getElementById('create-trade'),
     activeTrades: document.getElementById('active-trades'),
     tradeDetails: document.getElementById('trade-details'),
-    tradeHistory: document.getElementById('trade-history')
+    tradeHistory: document.getElementById('trade-history'),
+    selectContact: document.getElementById('select-contact')
 };
+
+// Поточний обраний розділ (для повернення після вибору контакту/подарунку)
+let previousSection = 'mainMenu';
+let contactSelectMode = 'create'; // 'create' або 'counter'
 
 // Ініціалізація
 function init() {
@@ -117,6 +141,20 @@ function setupEventListeners() {
     document.getElementById('backFromActiveBtn').addEventListener('click', () => showSection('mainMenu'));
     document.getElementById('backFromDetailsBtn').addEventListener('click', () => showSection('activeTrades'));
     document.getElementById('backFromHistoryBtn').addEventListener('click', () => showSection('mainMenu'));
+    document.getElementById('backFromContactsBtn').addEventListener('click', () => showSection(previousSection));
+    
+    // Кнопки вибору контактів і подарунків
+    document.getElementById('selectContactBtn').addEventListener('click', () => {
+        previousSection = 'createTrade';
+        contactSelectMode = 'create';
+        showContactsList();
+    });
+    
+    document.getElementById('selectItemBtn').addEventListener('click', () => showGiftSelection('create'));
+    document.getElementById('selectCounterItemBtn').addEventListener('click', () => showGiftSelection('counter'));
+    
+    // Пошук контактів
+    document.getElementById('contactSearch').addEventListener('input', filterContacts);
     
     // Функціональні кнопки
     document.getElementById('addItemBtn').addEventListener('click', addItem);
@@ -138,6 +176,9 @@ function showSection(sectionName) {
         renderTradesList();
     } else if (sectionName === 'tradeHistory') {
         renderHistoryList();
+    } else if (sectionName === 'createTrade') {
+        renderMyItems();
+        updateReceiverInfo();
     }
 }
 
@@ -197,22 +238,23 @@ function renderMyItems() {
 
 // Створення нової пропозиції обміну
 function createOffer() {
+    if (!selectedReceiver) {
+        showNotification('Виберіть отримувача обміну');
+        return;
+    }
+    
     if (myItems.length === 0) {
         showNotification('Додайте хоча б один подарунок');
         return;
     }
-    
-    // Діалог для вибору отримувача (в реальному додатку це може бути список контактів)
-    const receiverId = 87654321; // Заглушка
-    const receiverName = "Користувач"; // Заглушка
     
     // Створення нового обміну
     const newTrade = {
         id: Date.now(),
         senderId: currentUser.id,
         senderName: currentUser.username || currentUser.first_name,
-        receiverId: receiverId,
-        receiverName: receiverName,
+        receiverId: selectedReceiver.id,
+        receiverName: selectedReceiver.username || `${selectedReceiver.first_name} ${selectedReceiver.last_name || ''}`,
         items: [...myItems],
         counterOffer: [],
         status: "pending"
@@ -220,9 +262,11 @@ function createOffer() {
     
     activeTrades.push(newTrade);
     
-    // Очищення списку предметів
+    // Очищення списку предметів і скидання отримувача
     myItems = [];
+    selectedReceiver = null;
     renderMyItems();
+    updateReceiverInfo();
     
     showNotification('Пропозицію обміну створено');
     showSection('mainMenu');
@@ -491,6 +535,103 @@ function showNotification(message) {
     // В реальному додатку може використовуватися Telegram Mini Apps API
     // для нативних повідомлень або спливаючих вікон
     alert(message);
+}
+
+// Показ списку контактів для вибору
+function showContactsList() {
+    renderContactsList();
+    showSection('selectContact');
+}
+
+// Відображення списку контактів
+function renderContactsList() {
+    const container = document.getElementById('contactsList');
+    container.innerHTML = '';
+    
+    // Очищення поля пошуку при відображенні
+    document.getElementById('contactSearch').value = '';
+    
+    contacts.forEach(contact => {
+        const contactElement = document.createElement('div');
+        contactElement.className = 'contact-item';
+        contactElement.setAttribute('data-contact-id', contact.id);
+        
+        // Створення аватара з ініціалами
+        const initials = (contact.first_name.charAt(0) + (contact.last_name ? contact.last_name.charAt(0) : '')).toUpperCase();
+        
+        contactElement.innerHTML = `
+            <div class="contact-avatar">${initials}</div>
+            <div class="contact-details">
+                <div class="contact-name">${contact.first_name} ${contact.last_name || ''}</div>
+                ${contact.username ? `<div>@${contact.username}</div>` : ''}
+            </div>
+        `;
+        
+        contactElement.addEventListener('click', () => selectContact(contact));
+        container.appendChild(contactElement);
+    });
+}
+
+// Пошук/фільтрація контактів
+function filterContacts() {
+    const searchQuery = document.getElementById('contactSearch').value.toLowerCase();
+    const contactElements = document.querySelectorAll('.contact-item');
+    
+    contactElements.forEach(element => {
+        const contactName = element.querySelector('.contact-name').innerText.toLowerCase();
+        const username = element.querySelector('.contact-details div:nth-child(2)')?.innerText.toLowerCase() || '';
+        
+        if (contactName.includes(searchQuery) || username.includes(searchQuery)) {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    });
+}
+
+// Вибір контакту
+function selectContact(contact) {
+    selectedReceiver = contact;
+    updateReceiverInfo();
+    showSection(previousSection);
+}
+
+// Оновлення інформації про вибраного отримувача
+function updateReceiverInfo() {
+    const selectedReceiverElement = document.getElementById('selectedReceiver');
+    
+    if (selectedReceiver) {
+        selectedReceiverElement.innerText = `Отримувач: ${selectedReceiver.first_name} ${selectedReceiver.last_name || ''} ${selectedReceiver.username ? `(@${selectedReceiver.username})` : ''}`;
+        selectedReceiverElement.style.display = 'block';
+    } else {
+        selectedReceiverElement.style.display = 'none';
+    }
+}
+
+// Показ списку подарунків для вибору
+function showGiftSelection(mode) {
+    try {
+        // В реальному додатку тут буде виклик Telegram MiniApps API для вибору подарунків
+        // Наприклад: tg.showPopup({title: 'Виберіть подарунок', items: myGifts});
+        
+        // Замість цього показуємо діалог для вибору з тестового списку
+        const giftsList = myGifts.map((gift, index) => `${index + 1}. ${gift.name} - ${gift.description}`).join('\n');
+        const selectedIndex = parseInt(prompt(`Виберіть номер подарунка:\n${giftsList}`)) - 1;
+        
+        if (selectedIndex >= 0 && selectedIndex < myGifts.length) {
+            const selectedGift = myGifts[selectedIndex];
+            
+            if (mode === 'create') {
+                document.getElementById('itemName').value = selectedGift.name;
+                document.getElementById('itemDescription').value = selectedGift.description;
+            } else if (mode === 'counter') {
+                document.getElementById('counterItemName').value = selectedGift.name;
+                document.getElementById('counterItemDescription').value = selectedGift.description;
+            }
+        }
+    } catch (error) {
+        console.error('Помилка при виборі подарунка:', error);
+    }
 }
 
 // Запуск додатку
