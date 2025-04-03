@@ -20,7 +20,7 @@
             <button id="createTradeBtn">Створити обмін</button>
             <button id="activeTradesBtn">Активні обміни</button>
             <button id="historyBtn">Історія обмінів</button>
-            <button id="myNFTBtn">Мої NFT колекції</button>
+            <button id="myNFTBtn">Мої NFT подарунки</button>
         </div>
 
         <div id="create-trade" class="section">
@@ -39,7 +39,7 @@
                 <h3>Ваші пропозиції</h3>
                 <div id="myItems" class="items-list"></div>
                 <div class="input-group">
-                    <button id="addNFTBtn" class="wide-button">Додати NFT</button>
+                    <button id="addNFTBtn" class="wide-button">Додати NFT подарунок</button>
                     <button id="addItemBtn" class="wide-button">Додати звичайний подарунок</button>
                 </div>
             </div>
@@ -65,7 +65,7 @@
                     <div id="receiverItemsList" class="items-list"></div>
                     <div id="counterOffer" class="counter-offer">
                         <div class="input-group">
-                            <button id="addCounterNFTBtn" class="wide-button">Додати NFT</button>
+                            <button id="addCounterNFTBtn" class="wide-button">Додати NFT подарунок</button>
                             <button id="addCounterItemBtn" class="wide-button">Додати звичайний подарунок</button>
                         </div>
                     </div>
@@ -92,21 +92,27 @@
         </div>
         
         <div id="my-nft-collection" class="section">
-            <h2>Мої NFT колекції</h2>
+            <h2>Мої NFT подарунки Telegram</h2>
+            <div class="nft-description">
+                <p>Jelly Bunny — це офіційні NFT подарунки Telegram, які можна дарувати та колекціонувати.</p>
+                <p>Подарунки зберігаються у вашому профілі Telegram.</p>
+            </div>
             <div id="nftCollectionsList" class="nft-collections"></div>
-            <p id="nftEmptyState" class="empty-state">Ви ще не маєте колекцій NFT. Колекції з'являться тут після обміну подарунками.</p>
+            <p id="nftEmptyState" class="empty-state">У вас поки немає NFT подарунків. Ви можете придбати їх у Telegram за Stars або отримати від інших користувачів.</p>
+            <button id="buyNFTBtn" class="wide-button">Купити нові подарунки</button>
             <button id="backFromNFTBtn" class="back-btn">Назад</button>
         </div>
         
-        <!-- Шаблони для відображення NFT -->
-        <template id="nft-item-template">
-            <div class="item nft-item-display">
-                <div class="item-nft-tag">NFT</div>
+        <!-- Шаблони для відображення Jelly Bunny -->
+        <template id="jelly-bunny-template">
+            <div class="item jelly-bunny-display">
+                <div class="item-nft-tag">JELLY BUNNY</div>
                 <div class="item-nft-image">
-                    <img src="" alt="NFT зображення">
+                    <img src="" alt="Jelly Bunny">
                 </div>
                 <div class="item-name"></div>
                 <div class="item-description"></div>
+                <div class="jelly-bunny-rarity"></div>
             </div>
         </template>
     </div>
