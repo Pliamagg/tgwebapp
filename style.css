@@ -401,3 +401,118 @@ input[type="text"]:focus {
 .gift-selection-popup {
     animation: slideIn 0.2s ease-out forwards;
 }
+
+/* Стилі для Jelly Bunny NFT подарунків */
+.jelly-bunny-display {
+    position: relative;
+    padding-top: 36px;
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.1), rgba(65, 105, 225, 0.1));
+    border: 1px solid rgba(138, 43, 226, 0.2);
+    animation: jellyGlow 3s ease-in-out infinite;
+}
+
+.jelly-bunny-display .item-nft-tag {
+    background: linear-gradient(90deg, #8a2be2, #4169e1);
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px 0 4px 0;
+}
+
+.jelly-bunny-rarity {
+    margin-top: 4px;
+    font-size: 11px;
+    color: #8a2be2;
+    font-weight: bold;
+}
+
+.jelly-bunny-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #8a2be2, #4169e1);
+    color: white;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+@keyframes jellyGlow {
+    0%, 100% {
+        box-shadow: 0 0 8px rgba(138, 43, 226, 0.6);
+    }
+    50% {
+        box-shadow: 0 0 16px rgba(138, 43, 226, 0.8);
+    }
+}
+
+/* Стилі для коліційного списку Jelly Bunny */
+.jelly-bunny-list {
+    max-height: 460px;
+    overflow-y: auto;
+    padding: 8px;
+}
+
+.jelly-bunny-item {
+    display: flex;
+    margin-bottom: 12px;
+    padding: 12px;
+    border-radius: 12px;
+    background: var(--tg-theme-secondary-bg-color, #f5f5f5);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.jelly-bunny-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.jelly-bunny-image {
+    width: 70px;
+    height: 70px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.jelly-bunny-info {
+    flex: 1;
+    text-align: left;
+}
+
+.jelly-bunny-name {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 6px;
+    color: var(--tg-theme-text-color, #000);
+}
+
+.jelly-bunny-details {
+    font-size: 12px;
+    color: var(--tg-theme-hint-color, #666);
+    line-height: 1.4;
+}
+
+/* Покращений стиль NFT секції з Jelly Bunny */
+#my-nft-collection .jelly-bunny-rarity {
+    display: inline-block;
+    margin-top: 8px;
+    background: linear-gradient(90deg, #8a2be2, #4169e1);
+    color: white;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 10px;
+}
+
+/* Широкі кнопки для NFT подарунків */
+.wide-button {
+    width: 48%;
+    display: inline-block;
+    margin: 0 1%;
+    padding: 10px;
+    text-align: center;
+}
